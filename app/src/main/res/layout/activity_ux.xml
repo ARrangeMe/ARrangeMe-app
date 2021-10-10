@@ -13,15 +13,29 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HelloSceneformActivity">
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <fragment android:name="com.google.ar.sceneform.ux.ArFragment"
-      android:id="@+id/ux_fragment"
+  <FrameLayout
       android:layout_width="match_parent"
-      android:layout_height="match_parent" />
+      android:layout_height="657dp"
+      tools:context=".HelloSceneformActivity">
 
-</FrameLayout>
+
+    <fragment
+        android:id="@+id/ux_fragment"
+        android:name="com.google.ar.sceneform.ux.ArFragment"
+        android:layout_width="match_parent"
+        android:layout_height="655dp" />
+
+  </FrameLayout>
+
+  <TextView
+      android:id="@+id/my_text_view"
+      android:layout_width="match_parent"
+      android:layout_height="63dp"
+      android:text="@string/test_message" />
+</LinearLayout>

@@ -25,14 +25,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.ar.core.Anchor;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
+import com.google.ar.core.Pose;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is an example activity that uses the Sceneform UX package to make common AR tasks easier.
@@ -43,6 +48,7 @@ public class HelloSceneformActivity extends AppCompatActivity {
 
   private ArFragment arFragment;
   private ModelRenderable andyRenderable;
+  private List<AnchorNode> anchorNodeList =  new ArrayList<>();
 
   @Override
   @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
@@ -61,7 +67,7 @@ public class HelloSceneformActivity extends AppCompatActivity {
     // When you build a Renderable, Sceneform loads its resources in the background while returning
     // a CompletableFuture. Call thenAccept(), handle(), or check isDone() before calling get().
     ModelRenderable.builder()
-        .setSource(this, R.raw.fox)
+        .setSource(this, R.raw.andy)
         .build()
         .thenAccept(renderable -> andyRenderable = renderable)
         .exceptionally(
@@ -83,12 +89,34 @@ public class HelloSceneformActivity extends AppCompatActivity {
           Anchor anchor = hitResult.createAnchor();
           AnchorNode anchorNode = new AnchorNode(anchor);
           anchorNode.setParent(arFragment.getArSceneView().getScene());
+          anchorNodeList.add(anchorNode);
+          while (anchorNodeList.size() > 2) {
+              anchorNodeList.get(0).getAnchor().detach(); //tell arcore to stop tracking
+              anchorNodeList.remove(0);
+          }
+
 
           // Create the transformable andy and add it to the anchor.
           TransformableNode andy = new TransformableNode(arFragment.getTransformationSystem());
           andy.setParent(anchorNode);
           andy.setRenderable(andyRenderable);
           andy.select();
+
+          if (anchorNodeList.size() == 2) {
+              Pose poseA = anchorNodeList.get(0).getAnchor().getPose();
+              Pose poseB = anchorNodeList.get(1).getAnchor().getPose();
+              double squaredDistance =
+                      Math.pow((poseA.tx() - poseB.tx()),2) +
+                              Math.pow((poseA.ty() - poseB.ty()),2) +
+                              Math.pow((poseA.tz() - poseB.tz()),2);
+              double distance = Math.sqrt(squaredDistance); // value in meters
+              String distanceText = "Distance is: " + String.valueOf(distance);
+
+              // Capture the layout's TextView and set the string as its text
+              TextView textView = findViewById(R.id.my_text_view);
+              textView.setText(distanceText);
+          }
+
         });
   }
 
