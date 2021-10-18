@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.ar.sceneform.samples.hellosceneform;
+package com.google.ar.sceneform.samples.src.ui.measurement;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -27,28 +27,25 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.google.ar.core.Anchor;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
-import com.google.ar.core.Pose;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.rendering.ModelRenderable;
+import com.google.ar.sceneform.samples.src.R;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This is an example activity that uses the Sceneform UX package to make common AR tasks easier.
  */
-public class HelloSceneformActivity extends AppCompatActivity {
-  private static final String TAG = HelloSceneformActivity.class.getSimpleName();
+public class SceneformActivity extends AppCompatActivity implements SceneformView {
+  private static final String TAG = SceneformActivity.class.getSimpleName();
   private static final double MIN_OPENGL_VERSION = 3.0;
 
   private ArFragment arFragment;
   private ModelRenderable andyRenderable;
-  private List<AnchorNode> anchorNodeList =  new ArrayList<>();
+  private SceneformPresenter sceneformPresenter;
 
   @Override
   @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
@@ -60,6 +57,7 @@ public class HelloSceneformActivity extends AppCompatActivity {
     if (!checkIsSupportedDeviceOrFinish(this)) {
       return;
     }
+    sceneformPresenter = new SceneformPresenterImpl();
 
     setContentView(R.layout.activity_ux);
     arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ux_fragment);
@@ -85,15 +83,7 @@ public class HelloSceneformActivity extends AppCompatActivity {
             return;
           }
 
-          // Create the Anchor.
-          Anchor anchor = hitResult.createAnchor();
-          AnchorNode anchorNode = new AnchorNode(anchor);
-          anchorNode.setParent(arFragment.getArSceneView().getScene());
-          anchorNodeList.add(anchorNode);
-          while (anchorNodeList.size() > 2) {
-              anchorNodeList.get(0).getAnchor().detach(); //tell arcore to stop tracking
-              anchorNodeList.remove(0);
-          }
+          AnchorNode  anchorNode = sceneformPresenter.addAnchor(hitResult, arFragment);
 
 
           // Create the transformable andy and add it to the anchor.
@@ -102,21 +92,14 @@ public class HelloSceneformActivity extends AppCompatActivity {
           andy.setRenderable(andyRenderable);
           andy.select();
 
-          if (anchorNodeList.size() == 2) {
-              Pose poseA = anchorNodeList.get(0).getAnchor().getPose();
-              Pose poseB = anchorNodeList.get(1).getAnchor().getPose();
-              double squaredDistance =
-                      Math.pow((poseA.tx() - poseB.tx()),2) +
-                              Math.pow((poseA.ty() - poseB.ty()),2) +
-                              Math.pow((poseA.tz() - poseB.tz()),2);
-              double distance = Math.sqrt(squaredDistance); // value in meters
+          double distance = sceneformPresenter.getDistance();
+          if (distance > 0) {
               String distanceText = "Distance is: " + String.valueOf(distance);
 
               // Capture the layout's TextView and set the string as its text
               TextView textView = findViewById(R.id.my_text_view);
               textView.setText(distanceText);
           }
-
         });
   }
 
