@@ -25,6 +25,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.ar.core.HitResult;
@@ -32,8 +36,11 @@ import com.google.ar.core.Plane;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.samples.src.R;
+import com.google.ar.sceneform.samples.src.model.Item;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
+
+import java.text.DecimalFormat;
 
 
 /**
@@ -46,7 +53,13 @@ public class SceneformActivity extends AppCompatActivity implements SceneformVie
   private ArFragment arFragment;
   private ModelRenderable andyRenderable;
   private SceneformPresenter sceneformPresenter;
-
+  private Item item;
+  private enum Measurement { WIDTH, HEIGHT, LENGTH};
+  private Measurement side;
+  private RadioButton radioButtonWidth;
+  private RadioButton radioButtonLength;
+  private RadioButton radioButtonHeight;
+  private DecimalFormat formatter;
   @Override
   @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
   // CompletableFuture requires api level 24
@@ -57,10 +70,23 @@ public class SceneformActivity extends AppCompatActivity implements SceneformVie
     if (!checkIsSupportedDeviceOrFinish(this)) {
       return;
     }
+
+    side = Measurement.WIDTH;
+    item = new Item(); //dummy, this should get passed in
+    item.setHeight(1.0);
+    item.setWidth(2.0);
+    item.setLength(3.0);
+    formatter= new DecimalFormat();
+    formatter.setMaximumFractionDigits(3);
+
     sceneformPresenter = new SceneformPresenterImpl();
 
     setContentView(R.layout.activity_ux);
     arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ux_fragment);
+    radioButtonHeight = (RadioButton) findViewById(R.id.radioButtonHeight);
+    radioButtonWidth = (RadioButton) findViewById(R.id.radioButtonWidth);
+    radioButtonLength = (RadioButton) findViewById(R.id.radioButtonLength);
+    configureRadioButtons();
 
     // When you build a Renderable, Sceneform loads its resources in the background while returning
     // a CompletableFuture. Call thenAccept(), handle(), or check isDone() before calling get().
@@ -92,16 +118,59 @@ public class SceneformActivity extends AppCompatActivity implements SceneformVie
           andy.setRenderable(andyRenderable);
           andy.select();
 
-          double distance = sceneformPresenter.getDistance();
-          if (distance > 0) {
-              String distanceText = "Distance is: " + String.valueOf(distance);
+        double distance = sceneformPresenter.getDistance();
+        if (distance > 0) {
+          String distanceText = "Distance is: " + formatter.format(distance);
 
-              // Capture the layout's TextView and set the string as its text
-              TextView textView = findViewById(R.id.my_text_view);
+          TextView textView = null;
+          if (side.equals(Measurement.HEIGHT)) {
+              //update height text view
+              textView = findViewById(R.id.textViewHeight);
+              item.setHeight(distance);
+          }else if (side.equals(Measurement.LENGTH)) {
+              //update length textview
+              textView = findViewById(R.id.textViewLength);
+              item.setLength(distance);
+          }else if (side.equals(Measurement.WIDTH)) {
+                //update width textview
+              textView = findViewById(R.id.textViewWidth);
+              item.setWidth(distance);
+          }
+          if (textView != null) {
               textView.setText(distanceText);
           }
+        }
         });
   }
+
+  private void configureRadioButtons(){
+      //do this manually because android doesn't like nested layouts for whatever reason
+      radioButtonLength.setOnClickListener(new View.OnClickListener() {
+          public void onClick(View v) {
+              side = Measurement.LENGTH;
+              radioButtonLength.setChecked(true);
+              radioButtonWidth.setChecked(false);
+              radioButtonHeight.setChecked(false);
+          }
+      });
+      radioButtonWidth.setOnClickListener(new View.OnClickListener() {
+          public void onClick(View v) {
+              side = Measurement.WIDTH;
+              radioButtonWidth.setChecked(true);
+              radioButtonLength.setChecked(false);
+              radioButtonHeight.setChecked(false);
+          }
+      });
+      radioButtonHeight.setOnClickListener(new View.OnClickListener() {
+          public void onClick(View v) {
+              side = Measurement.HEIGHT;
+              radioButtonHeight.setChecked(true);
+              radioButtonLength.setChecked(false);
+              radioButtonWidth.setChecked(false);
+          }
+      });
+  }
+
 
   /**
    * Returns false and displays an error message if Sceneform can not run, true if Sceneform can run

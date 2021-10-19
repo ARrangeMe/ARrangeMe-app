@@ -1,5 +1,7 @@
 package com.google.ar.sceneform.samples.src.ui.measurement;
 
+
+
 import com.google.ar.core.Anchor;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Pose;
@@ -13,7 +15,6 @@ public class SceneformPresenterImpl implements  SceneformPresenter{
     private List<AnchorNode> anchorNodeList =  new ArrayList<>();
 
     public SceneformPresenterImpl(){
-
     }
 
     @Override
