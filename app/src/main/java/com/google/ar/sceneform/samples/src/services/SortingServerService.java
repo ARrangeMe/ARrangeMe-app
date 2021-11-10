@@ -1,5 +1,9 @@
 package com.google.ar.sceneform.samples.src.services;
 
+import com.google.ar.sceneform.samples.src.model.Container;
+import com.google.ar.sceneform.samples.src.model.PackingStrategy;
+import com.google.gson.Gson;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -30,7 +34,10 @@ public class SortingServerService {
 
            @Override
            public void onResponse(Call call, Response response) throws IOException {
+               Gson gson = new Gson();
                String res = response.body().string();
+               PackingStrategy strategy = gson.fromJson(res, PackingStrategy.class);
+               strategy = null;
                //do something with response
            }
        });
