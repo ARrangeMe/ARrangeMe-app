@@ -52,11 +52,12 @@ dependencies {
 
     implementation "com.android.support:appcompat-v7:28.0.0"
     implementation 'com.android.support.constraint:constraint-layout:2.0.4'
+    implementation 'com.squareup.okhttp3:okhttp:3.14.6'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
 }
 
 apply plugin: 'com.google.ar.sceneform.plugin'
-
 sceneform.asset('sampledata/models/andy.obj',
         'default',
         'sampledata/models/andy.sfa',
