@@ -5,9 +5,27 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class PackingStrategy {
-    public Container container = null;
+    private Container container;
     @SerializedName(value = "items_packed")
-    public List<PackedItem> itemsPacked = null;
+    private List<PackedItem> itemsPacked;
     @SerializedName(value = "items_not_packed")
-    public List<PackedItem> itemsNotPacked = null;
+    private List<Item> itemsNotPacked;
+
+    public PackingStrategy(Container container, List<PackedItem> itemsPacked, List<Item> itemsNotPacked) {
+        this.container = container;
+        this.itemsPacked = itemsPacked;
+        this.itemsNotPacked = itemsNotPacked;
+    }
+
+    public Container getContainer() {
+        return container;
+    }
+
+    public List<PackedItem> getItemsPacked() {
+        return itemsPacked;
+    }
+
+    public List<Item> getItemsNotPacked() {
+        return itemsNotPacked;
+    }
 }
