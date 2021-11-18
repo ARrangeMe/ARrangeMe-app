@@ -19,28 +19,25 @@ public class SortingServerService {
 
     OkHttpClient client = new OkHttpClient();
 
-    public void post(String url, String json) throws IOException {
+    public String post(String url, String json) throws IOException {
+
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
-        client.newCall(request).enqueue(new Callback() {
+        try (Response response = client.newCall(request).execute()) {
+            return response.body().string();
+        }
 
-           @Override
-           public void onFailure(Call call, IOException e) {
+    }
 
-           }
-
-           @Override
-           public void onResponse(Call call, Response response) throws IOException {
-               Gson gson = new Gson();
-               String res = response.body().string();
-               PackingStrategy strategy = gson.fromJson(res, PackingStrategy.class);
-               strategy = null;
-               //do something with response
-           }
-       });
-
+    public String get(String url, String json) throws IOException{
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        try (Response response = client.newCall(request).execute()) {
+            return response.body().string();
+        }
     }
 }
