@@ -27,6 +27,9 @@ public class SortingServerService {
                 .post(body)
                 .build();
         try (Response response = client.newCall(request).execute()) {
+            if (response.code() != 200) {
+                throw new IOException("Response code: "+response.code());
+            }
             return response.body().string();
         }
 
@@ -37,6 +40,9 @@ public class SortingServerService {
                 .url(url)
                 .build();
         try (Response response = client.newCall(request).execute()) {
+            if (response.code() != 200) {
+                throw new IOException("Response code: "+response.code());
+            }
             return response.body().string();
         }
     }
