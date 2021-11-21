@@ -9,9 +9,9 @@ public class PackingStrategy {
     @SerializedName(value = "items_packed")
     private List<PackedItem> itemsPacked;
     @SerializedName(value = "items_not_packed")
-    private List<Item> itemsNotPacked;
+    private List<PackedItem> itemsNotPacked;
 
-    public PackingStrategy(Container container, List<PackedItem> itemsPacked, List<Item> itemsNotPacked) {
+    public PackingStrategy(Container container, List<PackedItem> itemsPacked, List<PackedItem> itemsNotPacked) {
         this.container = container;
         this.itemsPacked = itemsPacked;
         this.itemsNotPacked = itemsNotPacked;
@@ -25,7 +25,7 @@ public class PackingStrategy {
         return itemsPacked;
     }
 
-    public List<Item> getItemsNotPacked() {
+    public List<PackedItem> getItemsNotPacked() {
         return itemsNotPacked;
     }
 }
