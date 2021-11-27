@@ -8,27 +8,15 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.google.ar.sceneform.samples.src.R;
+import com.google.ar.sceneform.samples.src.model.JobsList;
 import com.google.ar.sceneform.samples.src.model.PackingStrategy;
+import com.google.ar.sceneform.samples.src.services.SharedData;
+import com.google.ar.sceneform.samples.src.ui.jobs.JobsActivity;
 import com.google.ar.sceneform.samples.src.ui.main.PackingJobActivity;
 
 public class LoginActivity extends AppCompatActivity {
     private LoginPresenter loginPresenter;
-//    private class LoginAsyncTask extends android.os.AsyncTask<String,String,String> {
-//
-//        @Override
-//        protected String doInBackground(String... username) {
-//            loginPresenter.getUserByUsername(username[0]);
-//            return null;
-//        }
-//        @Override
-//        protected void onPostExecute(String result) {
-//            //pipe the result to a new activity
-//            Intent intent = new Intent(this, MainActivity.class);
-//            startActivity(intent);
-//        }
-//
 
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void openJobs(){
-        Intent intent = new Intent(this, PackingJobActivity.class);
+        Intent intent = new Intent(this, JobsActivity.class);
         startActivity(intent);
     }
 
@@ -46,19 +34,21 @@ public class LoginActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.editTextLogin);
         String username = editText.getText().toString();
 
-        new AsyncTask<String, String, PackingStrategy>() {
+        new AsyncTask<String, String, JobsList>() {
             // potential for memory leak if this task lives longer than the main thread. Unlikely.
             @Override
-            protected PackingStrategy doInBackground(String... username) {
+            protected JobsList doInBackground(String... username) {
                 return loginPresenter.getUserByUsername(username[0]);
             }
             @Override
-            protected void onPostExecute(PackingStrategy result) {
+            protected void onPostExecute(JobsList result) {
                 //pipe the result to a new activity
-//                if(result == null) {
-//                    //there was a problem
-//                    return;
-//                }
+                if(result == null) {
+                    //there was a problem
+                    return;
+                }
+                //set the data we'll need on the next app screen
+                SharedData.getInstance().setJobsList(result);
                 openJobs();
             }
         }.execute("test");

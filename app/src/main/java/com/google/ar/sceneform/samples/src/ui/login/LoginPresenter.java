@@ -1,7 +1,7 @@
 package com.google.ar.sceneform.samples.src.ui.login;
 
-import com.google.ar.sceneform.samples.src.model.PackingStrategy;
+import com.google.ar.sceneform.samples.src.model.JobsList;
 
 public interface LoginPresenter {
-    public PackingStrategy getUserByUsername(String username);
+    public JobsList getUserByUsername(String username);
 }
