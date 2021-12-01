@@ -9,10 +9,8 @@ import android.widget.EditText;
 
 import com.google.ar.sceneform.samples.src.R;
 import com.google.ar.sceneform.samples.src.model.JobsList;
-import com.google.ar.sceneform.samples.src.model.PackingStrategy;
-import com.google.ar.sceneform.samples.src.services.SharedData;
+import com.google.ar.sceneform.samples.src.services.SharedDataService;
 import com.google.ar.sceneform.samples.src.ui.jobs.JobsActivity;
-import com.google.ar.sceneform.samples.src.ui.main.PackingJobActivity;
 
 public class LoginActivity extends AppCompatActivity {
     private LoginPresenter loginPresenter;
@@ -48,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 //set the data we'll need on the next app screen
-                SharedData.getInstance().setJobsList(result);
+                SharedDataService.getInstance().setJobsList(result);
                 openJobs();
             }
         }.execute("test");
