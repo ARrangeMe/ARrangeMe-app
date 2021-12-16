@@ -30,6 +30,9 @@
         android:usesCleartextTraffic="false"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".ui.jobs.JobsActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true">
             <intent-filter>
@@ -40,14 +43,13 @@
         </activity>
         <activity
             android:name=".ui.main.PackingJobActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".ui.measurement.SceneformActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true"
             android:screenOrientation="locked"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <!--
          Indicates that this app requires Google Play Services for AR ("AR Required") and causes
              the Google Play Store to download and intall Google Play Services for AR along with
