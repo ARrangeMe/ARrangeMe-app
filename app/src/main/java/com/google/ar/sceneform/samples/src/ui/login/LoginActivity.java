@@ -11,6 +11,7 @@ import com.google.ar.sceneform.samples.src.R;
 import com.google.ar.sceneform.samples.src.model.JobsList;
 import com.google.ar.sceneform.samples.src.services.SharedDataService;
 import com.google.ar.sceneform.samples.src.ui.jobs.JobsActivity;
+import com.google.ar.sceneform.samples.src.ui.render.RenderActivity;
 
 public class LoginActivity extends AppCompatActivity {
     private LoginPresenter loginPresenter;
@@ -24,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void openJobs(){
-        Intent intent = new Intent(this, JobsActivity.class);
+        Intent intent = new Intent(this, RenderActivity.class);
         startActivity(intent);
     }
 
