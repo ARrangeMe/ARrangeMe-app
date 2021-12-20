@@ -25,10 +25,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void openJobs(){
+        Intent intent = new Intent(this, JobsActivity.class);
+        startActivity(intent);
+    }
+    public void openRender(){
         Intent intent = new Intent(this, RenderActivity.class);
         startActivity(intent);
     }
-
+    public void onRenderClick(View view) {
+        openRender();
+    }
     public void onClick(View view) {
         EditText editText = (EditText) findViewById(R.id.editTextLogin);
         String username = editText.getText().toString();
