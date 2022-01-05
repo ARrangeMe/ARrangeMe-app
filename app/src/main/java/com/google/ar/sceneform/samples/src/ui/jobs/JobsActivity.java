@@ -61,10 +61,10 @@ public class JobsActivity extends AppCompatActivity {
                     @Override
                     protected void onPostExecute(Job result) {
                         //pipe the result to a new activity
-                        if(result == null) {
-                            //there was a problem. TODO: print to logs or something
-                            return;
-                        }
+//                        if(result == null) {
+//                            //there was a problem. TODO: print to logs or something
+//                            return;
+//                        }
                         //set the data we'll need on the next app screen
                         SharedDataService.getInstance().setJob(result);
                         openPackingJob();
