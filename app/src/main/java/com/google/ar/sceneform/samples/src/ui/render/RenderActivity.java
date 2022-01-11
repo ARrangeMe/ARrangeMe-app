@@ -63,23 +63,9 @@ public class RenderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_render);
         mGLView = (GLSurfaceView) findViewById(R.id.renderView);
-//        mGLView = new GLSurfaceView(getApplication());
-
-        mGLView.setEGLConfigChooser(new GLSurfaceView.EGLConfigChooser() {
-            public EGLConfig chooseConfig(EGL10 egl, EGLDisplay display) {
-                // Ensure that we get a 16bit framebuffer. Otherwise, we'll fall
-                // back to Pixelflinger on some device (read: Samsung I7500)
-                int[] attributes = new int[] { EGL10.EGL_DEPTH_SIZE, 16, EGL10.EGL_NONE };
-                EGLConfig[] configs = new EGLConfig[1];
-                int[] result = new int[1];
-                egl.eglChooseConfig(display, attributes, configs, 1, result);
-                return configs[0];
-            }
-        });
 
         renderer = new MyRenderer();
         mGLView.setRenderer(renderer);
-//        setContentView(mGLView);
 
     }
 
