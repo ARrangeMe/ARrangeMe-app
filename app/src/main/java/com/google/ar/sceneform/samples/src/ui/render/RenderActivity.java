@@ -157,6 +157,8 @@ public class RenderActivity extends AppCompatActivity {
                 cube.setTexture("texture");
                 cube.strip();
                 cube.build();
+                // pre-build all the packing items here and store them in a list for performance.
+                // We can choose whether or not to render them later.
 
                 world.addObject(cube);
 
@@ -192,6 +194,8 @@ public class RenderActivity extends AppCompatActivity {
 //                cube.rotateX(touchTurnUp);
 //                touchTurnUp = 0;
 //            }
+
+            // Determine which objects need to be rendered
 
             //rotate the camera around the scene
             Camera cam = world.getCamera();
