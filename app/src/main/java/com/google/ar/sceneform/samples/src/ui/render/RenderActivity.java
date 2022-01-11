@@ -99,7 +99,7 @@ public class RenderActivity extends AppCompatActivity {
     }
 
     public boolean onTouchEvent(MotionEvent me) {
-
+        //action up and down help isolate touches up and down so, the user has more control. Do not remove these.
         if (me.getAction() == MotionEvent.ACTION_DOWN) {
             xpos = me.getX();
             ypos = me.getY();
@@ -182,16 +182,25 @@ public class RenderActivity extends AppCompatActivity {
         }
 
         public void onDrawFrame(GL10 gl) { //does the rendering in android's render thread
+//            //rotate the cube
+//            if (touchTurn != 0) {
+//                cube.rotateY(touchTurn);
+//                touchTurn = 0;
+//            }
+//
+//            if (touchTurnUp != 0) {
+//                cube.rotateX(touchTurnUp);
+//                touchTurnUp = 0;
+//            }
 
-            if (touchTurn != 0) {
-                cube.rotateY(touchTurn);
-                touchTurn = 0;
-            }
-
-            if (touchTurnUp != 0) {
-                cube.rotateX(touchTurnUp);
-                touchTurnUp = 0;
-            }
+            //rotate the camera around the scene
+            Camera cam = world.getCamera();
+            cam.rotateX(touchTurnUp); //rotate the camera
+            cam.rotateY(touchTurn);
+            touchTurn = 0; //reset these values
+            touchTurnUp = 0;
+            cam.setPosition(cube.getTransformedCenter()); // move camera to center of scene
+            cam.moveCamera(Camera.CAMERA_MOVEOUT, 50); //move the camera backwards relative to current direction
 
             //these four steps do the actual drawing
             fb.clear(back); //clear previous frame
