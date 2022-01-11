@@ -33,7 +33,7 @@ import com.threed.jpct.util.MemoryHelper;
 
 public class RenderActivity extends AppCompatActivity {
     // Used to handle pause and resume...
-    private static RenderActivity master = null;
+    private static RenderActivity master = null; //used for pause/resume handling
 
     private GLSurfaceView mGLView;
     private MyRenderer renderer = null;
@@ -48,7 +48,6 @@ public class RenderActivity extends AppCompatActivity {
     private float ypos = -1;
 
     private Object3D cube = null;
-    private int fps = 0;
 
     private Light sun = null;
 
@@ -110,7 +109,7 @@ public class RenderActivity extends AppCompatActivity {
         if (me.getAction() == MotionEvent.ACTION_UP) {
             xpos = -1;
             ypos = -1;
-            touchTurn = 0;
+            touchTurn = 0;// set here to be used by rendering thread
             touchTurnUp = 0;
             return true;
         }
@@ -127,22 +126,10 @@ public class RenderActivity extends AppCompatActivity {
             return true;
         }
 
-        try {
-            Thread.sleep(15);
-        } catch (Exception e) {
-            // No need for this...
-        }
-
         return super.onTouchEvent(me);
     }
 
-    protected boolean isFullscreenOpaque() {
-        return true;
-    }
-
     class MyRenderer implements GLSurfaceView.Renderer {
-
-        private long time = System.currentTimeMillis();
 
         public MyRenderer() {
         }
@@ -153,7 +140,7 @@ public class RenderActivity extends AppCompatActivity {
             }
             fb = new FrameBuffer(gl, w, h);
 
-            if (master == null) {
+            if (master == null) { //set up the world if we haven't already
 
                 world = new World();
                 world.setAmbientLight(20, 20, 20);
@@ -194,7 +181,8 @@ public class RenderActivity extends AppCompatActivity {
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         }
 
-        public void onDrawFrame(GL10 gl) {
+        public void onDrawFrame(GL10 gl) { //does the rendering in android's render thread
+
             if (touchTurn != 0) {
                 cube.rotateY(touchTurn);
                 touchTurn = 0;
@@ -205,17 +193,12 @@ public class RenderActivity extends AppCompatActivity {
                 touchTurnUp = 0;
             }
 
-            fb.clear(back);
-            world.renderScene(fb);
-            world.draw(fb);
-            fb.display();
+            //these four steps do the actual drawing
+            fb.clear(back); //clear previous frame
+            world.renderScene(fb); //render the new scene based o the world
+            world.draw(fb); //draw the new scene into the frame buffer
+            fb.display(); //display the new frame buffer
 
-            if (System.currentTimeMillis() - time >= 1000) {
-                Logger.log(fps + "fps");
-                fps = 0;
-                time = System.currentTimeMillis();
-            }
-            fps++;
         }
     }
 
