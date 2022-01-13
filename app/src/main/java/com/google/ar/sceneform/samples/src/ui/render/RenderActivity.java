@@ -186,18 +186,7 @@ public class RenderActivity extends AppCompatActivity {
         }
 
         public void onDrawFrame(GL10 gl) { //does the rendering in android's render thread
-//            //rotate the cube
-//            if (touchTurn != 0) {
-//                cube.rotateY(touchTurn);
-//                touchTurn = 0;
-//            }
-//
-//            if (touchTurnUp != 0) {
-//                cube.rotateX(touchTurnUp);
-//                touchTurnUp = 0;
-//            }
-
-            // Determine which objects need to be rendered
+            // TODO: Determine which objects need to be rendered. But this could slow down thread
 
             //rotate the camera around the scene
             Camera cam = world.getCamera();
