@@ -61,7 +61,7 @@ public class RenderActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_render);
-        mGLView = (GLSurfaceView) findViewById(R.id.renderView);
+        mGLView = (GLSurfaceView) findViewById(R.id.renderView); //this is where the render is actually shown
 
         renderer = new MyRenderer();
         mGLView.setRenderer(renderer);
@@ -98,7 +98,7 @@ public class RenderActivity extends AppCompatActivity {
         }
     }
 
-    public boolean onTouchEvent(MotionEvent me) {
+    public boolean onTouchEvent(MotionEvent me) { //probably don't need to change
         //action up and down help isolate touches up and down so, the user has more control. Do not remove these.
         if (me.getAction() == MotionEvent.ACTION_DOWN) {
             xpos = me.getX();
@@ -145,6 +145,7 @@ public class RenderActivity extends AppCompatActivity {
                 world = new World();
                 world.setAmbientLight(20, 20, 20);
 
+                // probably never have to change the sun
                 sun = new Light(world);
                 sun.setIntensity(250, 250, 250);
 
@@ -166,6 +167,7 @@ public class RenderActivity extends AppCompatActivity {
                 cam.moveCamera(Camera.CAMERA_MOVEOUT, 50);
                 cam.lookAt(cube.getTransformedCenter());
 
+                // probably doesn't ever have to be changed
                 SimpleVector sv = new SimpleVector();
                 sv.set(cube.getTransformedCenter());
                 sv.y -= 100;
