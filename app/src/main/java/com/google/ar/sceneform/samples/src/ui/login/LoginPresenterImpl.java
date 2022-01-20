@@ -2,14 +2,12 @@ package com.google.ar.sceneform.samples.src.ui.login;
 
 import com.google.ar.sceneform.samples.src.model.JobsList;
 import com.google.ar.sceneform.samples.src.services.Constants;
-import com.google.ar.sceneform.samples.src.services.SortingServerService;
+import com.google.ar.sceneform.samples.src.services.HttpRequestService;
 import com.google.gson.Gson;
-
-import java.io.IOException;
 
 
 public class LoginPresenterImpl implements LoginPresenter {
-    SortingServerService service = new SortingServerService();
+    HttpRequestService service = new HttpRequestService();
     Gson gson = new Gson();
     public JobsList getUserByUsername(String username) {
         //TODO: validate username
@@ -23,5 +21,10 @@ public class LoginPresenterImpl implements LoginPresenter {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public void createUser(String username) {
+        //TODO: use http service to post a new user
     }
 }

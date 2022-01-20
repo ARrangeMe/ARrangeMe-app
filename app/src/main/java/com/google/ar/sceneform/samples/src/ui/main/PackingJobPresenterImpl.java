@@ -1,14 +1,14 @@
 package com.google.ar.sceneform.samples.src.ui.main;
 
 import com.google.ar.sceneform.samples.src.model.PackingStrategy;
-import com.google.ar.sceneform.samples.src.services.SortingServerService;
+import com.google.ar.sceneform.samples.src.services.HttpRequestService;
 import com.google.gson.Gson;
 
 import java.io.IOException;
 
 public class PackingJobPresenterImpl implements PackingJobPresenter{
     Gson gson = new Gson();
-    SortingServerService service = new SortingServerService();
+    HttpRequestService service = new HttpRequestService();
 
     @Override
     public PackingStrategy getPackingStrategy()  {

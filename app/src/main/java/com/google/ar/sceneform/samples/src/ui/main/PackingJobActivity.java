@@ -8,7 +8,6 @@ import android.view.View;
 import com.google.ar.sceneform.samples.src.R;
 
 import com.google.ar.sceneform.samples.src.model.PackingStrategy;
-import com.google.ar.sceneform.samples.src.services.SortingServerService;
 import com.google.ar.sceneform.samples.src.ui.measurement.SceneformActivity;
 
 import java.io.IOException;

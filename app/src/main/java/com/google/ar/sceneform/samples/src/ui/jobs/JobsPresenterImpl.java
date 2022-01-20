@@ -7,7 +7,12 @@ public class JobsPresenterImpl implements JobsPresenter{
     @Override
     public Job getJob(String jobId) {
         return null;
-        //TODO: use networking service to get job from jobID
+        //TODO: use http service to get job from jobID
+    }
 
+    @Override
+    public void createJob() {
+        //TODO: use http service to get job from jobID
+        return;
     }
 }
