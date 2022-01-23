@@ -20,5 +20,8 @@
     <string name="addItemTitle">Item Details</string>
     <string name="item_name">Name</string>
     <string name="item_description">Description</string>
+    <string name="qr">Scan QR Code</string>
+    <string name="manual">Add Manually</string>
+    <string name="generate_strategy_btn">Generate Strategy</string>
 
 </resources>
