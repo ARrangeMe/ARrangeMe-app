@@ -8,7 +8,7 @@ import android.view.View;
 import com.google.ar.sceneform.samples.src.R;
 
 import com.google.ar.sceneform.samples.src.model.PackingStrategy;
-import com.google.ar.sceneform.samples.src.ui.addItem.AddItemActivity;
+import com.google.ar.sceneform.samples.src.ui.items.AddItemActivity;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package com.google.ar.sceneform.samples.src.ui.addItem;
+package com.google.ar.sceneform.samples.src.ui.items;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
