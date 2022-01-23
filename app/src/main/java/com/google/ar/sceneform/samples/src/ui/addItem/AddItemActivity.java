@@ -25,6 +25,15 @@ public class AddItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_item);
     }
 
+    @Override
+    protected void onResume() {
+        SharedDataService instance = SharedDataService.getInstance();
+        if (instance.getItem() != null) {
+            populateFields(instance.getItem());
+        }
+        super.onResume();
+    }
+
     public void editDimensions(View view) {
         Intent intent = new Intent(this, SceneformActivity.class);
         startActivity(intent);

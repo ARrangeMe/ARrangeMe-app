@@ -40,6 +40,7 @@ import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.ShapeFactory;
 import com.google.ar.sceneform.samples.src.R;
 import com.google.ar.sceneform.samples.src.model.Item;
+import com.google.ar.sceneform.samples.src.services.SharedDataService;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
@@ -57,6 +58,20 @@ public class SceneformActivity extends AppCompatActivity implements SceneformVie
     private ModelRenderable marker;
     private SceneformPresenter sceneformPresenter;
     private Item item;
+
+    public void saveButtonHandler(View view) {
+        SharedDataService instance = SharedDataService.getInstance();
+        if (instance.getItem() != null) {
+            Item currItem = instance.getItem();
+            currItem.setHeight(item.getHeight());
+            currItem.setWidth(item.getWidth());
+            currItem.setLength(item.getLength());
+            instance.setItem(currItem);
+        } else {
+            instance.setItem(item);
+        }
+        finish();
+    }
 
     private enum Measurement {WIDTH, HEIGHT, LENGTH}
 

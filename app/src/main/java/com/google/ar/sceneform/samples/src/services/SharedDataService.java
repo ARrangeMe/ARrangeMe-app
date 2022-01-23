@@ -23,7 +23,7 @@ public class SharedDataService {
 
     private Item item;
     public Item getItem() {return item;}
-    public void setItemID(Item item) {this.item = item;}
+    public void setItem(Item item) {this.item = item;}
 
     private User user;
     public User getUser() {return user;}
