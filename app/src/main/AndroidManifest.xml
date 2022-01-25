@@ -33,6 +33,9 @@
             android:name=".ui.jobs.JobsActivity"
             android:exported="true" />
         <activity
+            android:name=".ui.addItem.AddItemActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true">
             <intent-filter>
