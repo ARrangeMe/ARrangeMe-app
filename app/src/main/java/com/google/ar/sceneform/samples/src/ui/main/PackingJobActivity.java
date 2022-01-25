@@ -8,8 +8,7 @@ import android.view.View;
 import com.google.ar.sceneform.samples.src.R;
 
 import com.google.ar.sceneform.samples.src.model.PackingStrategy;
-import com.google.ar.sceneform.samples.src.services.SortingServerService;
-import com.google.ar.sceneform.samples.src.ui.measurement.SceneformActivity;
+import com.google.ar.sceneform.samples.src.ui.addItem.AddItemActivity;
 
 import java.io.IOException;
 
@@ -23,7 +22,7 @@ public class PackingJobActivity extends AppCompatActivity {
         packingJobPresenter = new PackingJobPresenterImpl();
     }
     public void editDimensions(View view) {
-        Intent intent = new Intent(this, SceneformActivity.class);
+        Intent intent = new Intent(this, AddItemActivity.class);
         startActivity(intent);
     }
 
