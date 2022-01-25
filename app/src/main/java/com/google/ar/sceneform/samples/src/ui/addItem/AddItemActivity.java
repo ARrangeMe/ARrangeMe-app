@@ -35,6 +35,7 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     public void editDimensions(View view) {
+        submitButtonHandler(null);
         Intent intent = new Intent(this, SceneformActivity.class);
         startActivity(intent);
     }
@@ -62,6 +63,8 @@ public class AddItemActivity extends AppCompatActivity {
         item.setWeight(getIntValueFromID(R.id.itemWeight));
         item.setFragile(getBoolValueFromID(R.id.itemIsFragile));
         item.setPriority(0); //TODO: Is this set by the user?
+
+        instance.setItem(item);
     }
 
     private void populateFields (Item item) {
