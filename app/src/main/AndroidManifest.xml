@@ -30,6 +30,9 @@
         android:usesCleartextTraffic="false"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".ui.register.RegisterActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.jobs.JobsActivity"
             android:exported="true" />
         <activity
@@ -46,7 +49,7 @@
         </activity>
         <activity
             android:name=".ui.main.PackingJobActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".ui.measurement.SceneformActivity"
             android:configChanges="orientation|screenSize"

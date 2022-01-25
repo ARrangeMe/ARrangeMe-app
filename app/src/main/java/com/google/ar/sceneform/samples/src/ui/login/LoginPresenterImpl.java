@@ -23,8 +23,4 @@ public class LoginPresenterImpl implements LoginPresenter {
         }
     }
 
-    @Override
-    public void createUser(String username) {
-        //TODO: use http service to post a new user
-    }
 }
