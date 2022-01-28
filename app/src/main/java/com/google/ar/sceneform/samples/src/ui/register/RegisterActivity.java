@@ -25,7 +25,7 @@ public class RegisterActivity extends AppCompatActivity {
             // potential for memory leak if this task lives longer than the main thread. Unlikely.
             @Override
             protected Boolean doInBackground(String... username) {
-                registerPresenter.registerUser(username[0]);
+                registerPresenter.registerUser(username[0],"firstName","lastName","email","password");
                 return true;
             }
             @Override
