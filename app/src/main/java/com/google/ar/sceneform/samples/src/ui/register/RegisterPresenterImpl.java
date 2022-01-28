@@ -22,7 +22,7 @@ public class RegisterPresenterImpl implements RegisterPresenter{
                 "}"; //TODO: use a string builder
         try {
 
-            String response = service.get(Constants.registerEndpoint, body);
+            String response = service.post(Constants.registerEndpoint, body);
             return  gson.fromJson(response, RegisterResponse.class);
         } catch (Exception e) {
             e.printStackTrace();

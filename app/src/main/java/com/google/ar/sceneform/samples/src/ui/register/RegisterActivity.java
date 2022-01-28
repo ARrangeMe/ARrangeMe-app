@@ -1,5 +1,6 @@
 package com.google.ar.sceneform.samples.src.ui.register;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.google.ar.sceneform.samples.src.R;
+import com.google.ar.sceneform.samples.src.ui.jobs.JobsActivity;
+import com.google.ar.sceneform.samples.src.ui.login.LoginActivity;
 
 public class RegisterActivity extends AppCompatActivity {
     private RegisterPresenter registerPresenter;
@@ -15,6 +18,10 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         registerPresenter = new RegisterPresenterImpl();
+    }
+    public void openLogin(){
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 
     public void onClick(View view) {
@@ -31,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(Boolean result) {
                 //TODO: Check result or something and give user a notification success/failure
+                openLogin();
             }
         }.execute("test");
     }

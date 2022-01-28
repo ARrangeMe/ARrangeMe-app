@@ -27,7 +27,7 @@ public class HttpRequestService {
                 .post(body)
                 .build();
         try (Response response = client.newCall(request).execute()) {
-            if (response.code() != 200) {
+            if (response.code() >=400) {
                 throw new IOException("Response code: "+response.code());
             }
             return response.body().string();
@@ -35,12 +35,12 @@ public class HttpRequestService {
 
     }
 
-    public String get(String url, String json) throws IOException{
+    public String get(String url) throws IOException{
         Request request = new Request.Builder()
                 .url(url)
                 .build();
         try (Response response = client.newCall(request).execute()) {
-            if (response.code() != 200) {
+            if (response.code() >=400) {
                 throw new IOException("Response code: "+response.code());
             }
             return response.body().string();

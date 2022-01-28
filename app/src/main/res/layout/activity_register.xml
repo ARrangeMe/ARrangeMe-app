@@ -9,30 +9,22 @@
     <EditText
         android:id="@+id/editTextRegister"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="224dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="75dp"
+        android:layout_marginTop="300dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="@string/register_username"
-        app:layout_constraintEnd_toStartOf="@+id/registerButton"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/registerButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="279dp"
-        android:layout_marginEnd="44dp"
-        android:layout_marginBottom="450dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:onClick="onClick"
         android:text="Register"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.961"
-        android:onClick="onClick"/>
+        app:layout_constraintStart_toStartOf="@+id/editTextRegister"
+        app:layout_constraintTop_toBottomOf="@+id/editTextRegister" />
 </android.support.constraint.ConstraintLayout>
