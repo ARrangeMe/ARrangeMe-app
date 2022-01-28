@@ -32,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
             // potential for memory leak if this task lives longer than the main thread. Unlikely.
             @Override
             protected Boolean doInBackground(String... username) {
+                //TODO: make input fields in UI for these
                 registerPresenter.registerUser(username[0],"firstName","lastName","email","password");
                 return true;
             }
@@ -40,6 +41,6 @@ public class RegisterActivity extends AppCompatActivity {
                 //TODO: Check result or something and give user a notification success/failure
                 openLogin();
             }
-        }.execute("test");
+        }.execute(username);
     }
 }

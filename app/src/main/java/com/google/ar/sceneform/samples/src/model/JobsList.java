@@ -1,7 +1,5 @@
 package com.google.ar.sceneform.samples.src.model;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class JobsList {
@@ -11,4 +9,7 @@ public class JobsList {
     }
 
     public List<JobInfo> getJobs(){ return jobs; }
+    public void addJob(JobInfo jobInfo){
+        jobs.add(jobInfo);
+    }
 }

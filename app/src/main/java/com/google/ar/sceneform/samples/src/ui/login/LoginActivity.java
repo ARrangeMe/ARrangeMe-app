@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                 SharedDataService.getInstance().setJobsList(result);
                 openJobs();
             }
-        }.execute("test");
+        }.execute(username);
     }
 
     public void onCreateNewAccountClicked(View view) {

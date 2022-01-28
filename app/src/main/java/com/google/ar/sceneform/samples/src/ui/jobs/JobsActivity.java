@@ -24,17 +24,20 @@ import java.util.List;
 public class JobsActivity extends AppCompatActivity {
     private JobsList jobs;
     private JobsPresenter jobsPresenter;
+    private Integer userId;
+    private List<HashMap<String, String>> listItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jobs);
         this.jobs = SharedDataService.getInstance().getJobsList();
+        this.userId = SharedDataService.getInstance().getUser().getUserID();
         jobsPresenter = new JobsPresenterImpl();
 
         ListView listView = (ListView) findViewById(R.id.jobsListView);
 
-        List<HashMap<String, String>> listItems = new ArrayList<>();// add items to list as a hashmap
+        listItems = new ArrayList<>();// add items to list as a hashmap
         SimpleAdapter adapter = new SimpleAdapter(this, listItems, R.layout.list_item,
                 new String[]{"First Line", "Second Line"},
                 new int[]{R.id.text1, R.id.text2}); //maps data here to UI element
@@ -55,8 +58,8 @@ public class JobsActivity extends AppCompatActivity {
                 new AsyncTask<String, String, Job>() {
                     // potential for memory leak if this task lives longer than the main thread. Unlikely.
                     @Override
-                    protected Job doInBackground(String... username) {
-                        return jobsPresenter.getJob(jobId);
+                    protected Job doInBackground(String... jobId) {
+                        return jobsPresenter.getJob(jobId[0]);
                     }
                     @Override
                     protected void onPostExecute(Job result) {
@@ -69,13 +72,41 @@ public class JobsActivity extends AppCompatActivity {
                         SharedDataService.getInstance().setJob(result);
                         openPackingJob();
                     }
-                }.execute("test");
+                }.execute(jobId);
 
             }
         });
     }
+
+    public void onClick(View view) throws Exception {
+        if (userId == null) {
+            throw new Exception("User ID is not set!");
+        }
+
+        new AsyncTask<String, String, JobInfo>() {
+            // potential for memory leak if this task lives longer than the main thread. Unlikely.
+            @Override
+            protected JobInfo doInBackground(String... params) {
+                return jobsPresenter.createJob(params[0], params[1]);
+            }
+            @Override
+            protected void onPostExecute(JobInfo result) {
+                if(result == null) {
+                    return;
+                }
+                addJobToList(result);
+            }
+        }.execute(userId.toString(), "testJobName");
+    }
     private void openPackingJob(){
         Intent intent = new Intent(this, PackingJobActivity.class);
         startActivity(intent);
+    }
+    private void addJobToList(JobInfo jobInfo){
+        jobs.addJob(jobInfo); //not necessary, but do for completion
+        HashMap<String, String> listItem = new HashMap<>();
+        listItem.put("First Line",jobInfo.getName());
+        listItem.put("Second Line", jobInfo.getId());
+        listItems.add(listItem);
     }
 }
