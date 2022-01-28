@@ -48,9 +48,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.main.PackingJobActivity"
-            android:exported="true" />
-        <activity
             android:name=".ui.measurement.SceneformActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true"

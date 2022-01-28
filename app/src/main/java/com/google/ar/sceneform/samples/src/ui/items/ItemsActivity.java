@@ -11,16 +11,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
 import com.google.ar.sceneform.samples.src.R;
 import com.google.ar.sceneform.samples.src.model.Item;
 import com.google.ar.sceneform.samples.src.model.Job;
-import com.google.ar.sceneform.samples.src.model.JobInfo;
 import com.google.ar.sceneform.samples.src.model.PackingStrategy;
 import com.google.ar.sceneform.samples.src.services.SharedDataService;
-import com.google.ar.sceneform.samples.src.ui.main.PackingJobPresenter;
-import com.google.ar.sceneform.samples.src.ui.main.PackingJobPresenterImpl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,14 +26,14 @@ import java.util.List;
 public class ItemsActivity extends AppCompatActivity {
 
     private Job job;
-    private PackingJobPresenter packingJobPresenter;
+    private ItemsPresenter itemsPresenter;
     private List<Item> items;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items);
-        this.packingJobPresenter = new PackingJobPresenterImpl();
+        this.itemsPresenter = new ItemsPresenterImpl();
         this.job = SharedDataService.getInstance().getJob();
         if (job != null) {
             this.items = job.getItems();
@@ -97,7 +93,7 @@ public class ItemsActivity extends AppCompatActivity {
             // potential for memory leak if this task lives longer than the main thread. Unlikely.
             @Override
             protected PackingStrategy doInBackground(String... username) {
-                return packingJobPresenter.getPackingStrategy();
+                return itemsPresenter.getPackingStrategy();
             }
 
             @Override
