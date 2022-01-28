@@ -1,28 +1,16 @@
 package com.google.ar.sceneform.samples.src.ui.render;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
-import com.google.ar.sceneform.samples.src.R;
-
-import java.lang.reflect.Field;
-
-import javax.microedition.khronos.egl.EGL10;
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.egl.EGLDisplay;
-import javax.microedition.khronos.opengles.GL10;
-
 import android.opengl.GLSurfaceView;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 
-import com.google.ar.sceneform.samples.src.ui.login.LoginPresenter;
-import com.google.ar.sceneform.samples.src.ui.login.LoginPresenterImpl;
+import com.google.ar.sceneform.samples.src.R;
 import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Light;
 import com.threed.jpct.Logger;
 import com.threed.jpct.Object3D;
-import com.threed.jpct.Primitives;
 import com.threed.jpct.RGBColor;
 import com.threed.jpct.SimpleVector;
 import com.threed.jpct.Texture;
@@ -30,6 +18,11 @@ import com.threed.jpct.TextureManager;
 import com.threed.jpct.World;
 import com.threed.jpct.util.BitmapHelper;
 import com.threed.jpct.util.MemoryHelper;
+
+import java.lang.reflect.Field;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
 
 public class RenderActivity extends AppCompatActivity {
     // Used to handle pause and resume...
@@ -129,6 +122,51 @@ public class RenderActivity extends AppCompatActivity {
         return super.onTouchEvent(me);
     }
 
+    Object3D makeBox(SimpleVector pivotPoint, float width, float height, float length) {
+        Object3D box=new Object3D(12);
+
+        // in JPCT, positive coordinate is x to right, y to down, z into screen
+        SimpleVector upperLeftBack = pivotPoint;
+        SimpleVector upperRightBack = new SimpleVector(pivotPoint.x + width, pivotPoint.y, pivotPoint.z);
+        SimpleVector lowerLeftBack = new SimpleVector( pivotPoint.x, pivotPoint.y + height, pivotPoint.z);
+        SimpleVector lowerRightBack = new SimpleVector(pivotPoint.x + width, pivotPoint.y + height, pivotPoint.z);
+
+        SimpleVector upperLeftFront=new SimpleVector(pivotPoint.x, pivotPoint.y, pivotPoint.z - length);
+        SimpleVector upperRightFront=new SimpleVector(pivotPoint.x + width, pivotPoint.y, pivotPoint.z - length);
+        SimpleVector lowerLeftFront=new SimpleVector(pivotPoint.x, pivotPoint.y + height, pivotPoint.z - length);
+        SimpleVector lowerRightFront=new SimpleVector(pivotPoint.x + width, pivotPoint.y + height, pivotPoint.z - length);
+
+        // Front
+        box.addTriangle(upperLeftFront,0,0, lowerLeftFront,0,1, upperRightFront,1,0);
+        box.addTriangle(upperRightFront,1,0, lowerLeftFront,0,1, lowerRightFront,1,1);
+
+        // Back
+        box.addTriangle(upperLeftBack,0,0, upperRightBack,1,0, lowerLeftBack,0,1);
+        box.addTriangle(upperRightBack,1,0, lowerRightBack,1,1, lowerLeftBack,0,1);
+
+        // Upper
+        box.addTriangle(upperLeftBack,0,0, upperLeftFront,0,1, upperRightBack,1,0);
+        box.addTriangle(upperRightBack,1,0, upperLeftFront,0,1, upperRightFront,1,1);
+
+        // Lower
+        box.addTriangle(lowerLeftBack,0,0, lowerRightBack,1,0, lowerLeftFront,0,1);
+        box.addTriangle(lowerRightBack,1,0, lowerRightFront,1,1, lowerLeftFront,0,1);
+
+        // Left
+        box.addTriangle(upperLeftFront,0,0, upperLeftBack,1,0, lowerLeftFront,0,1);
+        box.addTriangle(upperLeftBack,1,0, lowerLeftBack,1,1, lowerLeftFront,0,1);
+
+        // Right
+        box.addTriangle(upperRightFront,0,0, lowerRightFront,0,1, upperRightBack,1,0);
+        box.addTriangle(upperRightBack,1,0, lowerRightFront, 0,1, lowerRightBack,1,1);
+
+        box.setTexture("base");
+        box.build();
+
+        return box;
+    }
+
+
     class MyRenderer implements GLSurfaceView.Renderer {
 
         public MyRenderer() {
@@ -153,11 +191,11 @@ public class RenderActivity extends AppCompatActivity {
                 Texture texture = new Texture(BitmapHelper.rescale(BitmapHelper.convert(getResources().getDrawable(R.drawable.ic_launcher)), 64, 64));
                 TextureManager.getInstance().addTexture("texture", texture);
 
-                cube = Primitives.getCube(10);
-                cube.calcTextureWrapSpherical();
-                cube.setTexture("texture");
-                cube.strip();
-                cube.build();
+//                cube = Primitives.getCube(10);
+//                cube.calcTextureWrapSpherical();
+//                cube.setTexture("texture");
+//                cube.strip();
+//                cube.build();
                 // pre-build all the packing items here and store them in a list for performance.
                 // We can choose whether or not to render them later.
 
