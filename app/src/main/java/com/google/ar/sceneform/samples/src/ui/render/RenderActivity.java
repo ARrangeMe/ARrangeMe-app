@@ -190,7 +190,8 @@ public class RenderActivity extends AppCompatActivity {
                 // Create a texture out of the icon...:-)
                 Texture texture = new Texture(BitmapHelper.rescale(BitmapHelper.convert(getResources().getDrawable(R.drawable.ic_launcher)), 64, 64));
                 TextureManager.getInstance().addTexture("texture", texture);
-
+                SimpleVector dummy = new SimpleVector(0,0,0);
+                cube = makeBox(dummy, 3, 3, 3);
 //                cube = Primitives.getCube(10);
 //                cube.calcTextureWrapSpherical();
 //                cube.setTexture("texture");
