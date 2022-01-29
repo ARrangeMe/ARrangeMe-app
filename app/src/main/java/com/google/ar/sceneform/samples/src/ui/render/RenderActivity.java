@@ -160,7 +160,10 @@ public class RenderActivity extends AppCompatActivity {
         box.addTriangle(upperRightFront,0,0, lowerRightFront,0,1, upperRightBack,1,0);
         box.addTriangle(upperRightBack,1,0, lowerRightFront, 0,1, lowerRightBack,1,1);
 
-        box.setTexture("base");
+        // Create a texture out of the icon...:-)
+        Texture texture = new Texture(BitmapHelper.rescale(BitmapHelper.convert(getResources().getDrawable(R.drawable.ic_launcher)), 64, 64));
+        TextureManager.getInstance().addTexture("texture", texture);
+        box.setTexture("texture");
         box.build();
 
         return box;
@@ -187,16 +190,9 @@ public class RenderActivity extends AppCompatActivity {
                 sun = new Light(world);
                 sun.setIntensity(250, 250, 250);
 
-                // Create a texture out of the icon...:-)
-                Texture texture = new Texture(BitmapHelper.rescale(BitmapHelper.convert(getResources().getDrawable(R.drawable.ic_launcher)), 64, 64));
-                TextureManager.getInstance().addTexture("texture", texture);
+                // edit rendering logic here
                 SimpleVector dummy = new SimpleVector(0,0,0);
-                cube = makeBox(dummy, 3, 3, 3);
-//                cube = Primitives.getCube(10);
-//                cube.calcTextureWrapSpherical();
-//                cube.setTexture("texture");
-//                cube.strip();
-//                cube.build();
+                cube = makeBox(dummy, 30, 30, 30);
                 // pre-build all the packing items here and store them in a list for performance.
                 // We can choose whether or not to render them later.
 
