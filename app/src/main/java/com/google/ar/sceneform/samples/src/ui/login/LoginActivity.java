@@ -11,7 +11,6 @@ import android.widget.EditText;
 import com.google.ar.sceneform.samples.src.R;
 import com.google.ar.sceneform.samples.src.model.JobsList;
 import com.google.ar.sceneform.samples.src.services.SharedDataService;
-import com.google.ar.sceneform.samples.src.ui.dialogs.AddJobInfoDialogFragment;
 import com.google.ar.sceneform.samples.src.ui.dialogs.LoginFailedDialogFragment;
 import com.google.ar.sceneform.samples.src.ui.jobs.JobsActivity;
 import com.google.ar.sceneform.samples.src.ui.register.RegisterActivity;
