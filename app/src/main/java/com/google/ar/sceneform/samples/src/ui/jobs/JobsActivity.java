@@ -26,6 +26,8 @@ public class JobsActivity extends AppCompatActivity {
     private JobsPresenter jobsPresenter;
     private Integer userId;
     private List<HashMap<String, String>> listItems;
+    private ListView listView;
+    SimpleAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +37,12 @@ public class JobsActivity extends AppCompatActivity {
         this.userId = SharedDataService.getInstance().getUser().getUserID();
         jobsPresenter = new JobsPresenterImpl();
 
-        ListView listView = (ListView) findViewById(R.id.jobsListView);
+        listView = (ListView) findViewById(R.id.jobsListView);
 
         listItems = new ArrayList<>();// add items to list as a hashmap
-        SimpleAdapter adapter = new SimpleAdapter(this, listItems, R.layout.list_item,
+        adapter = new SimpleAdapter(this, listItems, R.layout.list_item,
                 new String[]{"First Line", "Second Line"},
                 new int[]{R.id.text1, R.id.text2}); //maps data here to UI element
-
         for (JobInfo job : jobs.getJobs()) {
             HashMap<String, String> listItem = new HashMap<>();
             listItem.put("First Line",job.getName());
@@ -108,5 +109,6 @@ public class JobsActivity extends AppCompatActivity {
         listItem.put("First Line",jobInfo.getName());
         listItem.put("Second Line", jobInfo.getId());
         listItems.add(listItem);
+        adapter.notifyDataSetChanged(); //this tells the UI it needs to refresh itself. (Must be called in UI thread)
     }
 }
