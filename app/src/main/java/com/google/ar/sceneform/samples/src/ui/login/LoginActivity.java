@@ -2,6 +2,7 @@ package com.google.ar.sceneform.samples.src.ui.login;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.EditText;
 import com.google.ar.sceneform.samples.src.R;
 import com.google.ar.sceneform.samples.src.model.JobsList;
 import com.google.ar.sceneform.samples.src.services.SharedDataService;
+import com.google.ar.sceneform.samples.src.ui.dialogs.AddJobInfoDialogFragment;
+import com.google.ar.sceneform.samples.src.ui.dialogs.LoginFailedDialogFragment;
 import com.google.ar.sceneform.samples.src.ui.jobs.JobsActivity;
 import com.google.ar.sceneform.samples.src.ui.register.RegisterActivity;
 
@@ -44,6 +47,8 @@ public class LoginActivity extends AppCompatActivity {
                 //pipe the result to a new activity
                 if(result == null) {
                     //there was a problem
+                    DialogFragment newFragment = new LoginFailedDialogFragment();
+                    newFragment.show(getSupportFragmentManager(), "failed");
                     return;
                 }
                 //set the data we'll need on the next app screen

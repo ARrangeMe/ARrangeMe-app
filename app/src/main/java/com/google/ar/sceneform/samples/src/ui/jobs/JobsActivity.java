@@ -2,6 +2,7 @@ package com.google.ar.sceneform.samples.src.ui.jobs;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.google.ar.sceneform.samples.src.model.Job;
 import com.google.ar.sceneform.samples.src.model.JobInfo;
 import com.google.ar.sceneform.samples.src.model.JobsList;
 import com.google.ar.sceneform.samples.src.services.SharedDataService;
+import com.google.ar.sceneform.samples.src.ui.dialogs.AddJobInfoDialogFragment;
 import com.google.ar.sceneform.samples.src.ui.main.PackingJobActivity;
 
 import java.util.ArrayList;
@@ -83,6 +85,9 @@ public class JobsActivity extends AppCompatActivity {
         if (userId == null) {
             throw new Exception("User ID is not set!");
         }
+        DialogFragment newFragment = new AddJobInfoDialogFragment();
+        newFragment.show(getSupportFragmentManager(), "tag1");
+
 
         new AsyncTask<String, String, JobInfo>() {
             // potential for memory leak if this task lives longer than the main thread. Unlikely.
