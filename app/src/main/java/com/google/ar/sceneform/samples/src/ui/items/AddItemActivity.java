@@ -1,4 +1,4 @@
-package com.google.ar.sceneform.samples.src.ui.addItem;
+package com.google.ar.sceneform.samples.src.ui.items;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -17,12 +17,12 @@ public class AddItemActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setContentView(R.layout.activity_add_item);
         SharedDataService instance = SharedDataService.getInstance();
         if (instance.getItem() != null) {
             populateFields(instance.getItem());
         }
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_item);
     }
 
     @Override
