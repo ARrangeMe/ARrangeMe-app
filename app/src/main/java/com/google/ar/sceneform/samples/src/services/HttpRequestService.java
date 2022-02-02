@@ -1,13 +1,7 @@
 package com.google.ar.sceneform.samples.src.services;
 
-import com.google.ar.sceneform.samples.src.model.Container;
-import com.google.ar.sceneform.samples.src.model.PackingStrategy;
-import com.google.gson.Gson;
-
 import java.io.IOException;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

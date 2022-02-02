@@ -19,7 +19,7 @@ import com.google.ar.sceneform.samples.src.model.Job;
 import com.google.ar.sceneform.samples.src.model.JobInfo;
 import com.google.ar.sceneform.samples.src.model.JobsList;
 import com.google.ar.sceneform.samples.src.services.SharedDataService;
-import com.google.ar.sceneform.samples.src.ui.main.PackingJobActivity;
+import com.google.ar.sceneform.samples.src.ui.items.ItemsActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +44,8 @@ public class JobsActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.jobsListView);
 
         listItems = new ArrayList<>();// add items to list as a hashmap
-        adapter = new SimpleAdapter(this, listItems, R.layout.list_item,
+
+        adapter = new SimpleAdapter(this, listItems, R.layout.jobslist_item,
                 new String[]{"First Line", "Second Line"},
                 new int[]{R.id.text1, R.id.text2}); //maps data here to UI element
         for (JobInfo job : jobs.getJobs()) {
@@ -69,13 +70,13 @@ public class JobsActivity extends AppCompatActivity {
                     @Override
                     protected void onPostExecute(Job result) {
                         //pipe the result to a new activity
-//                        if(result == null) {
-//                            //there was a problem. TODO: print to logs or something
-//                            return;
-//                        }
+                        if(result == null) {
+                            //there was a problem. TODO: print to logs or something
+                            return;
+                        }
                         //set the data we'll need on the next app screen
                         SharedDataService.getInstance().setJob(result);
-                        openPackingJob();
+                        openItemsList();
                     }
                 }.execute(jobId);
 
@@ -112,8 +113,9 @@ public class JobsActivity extends AppCompatActivity {
         builder.create().show();
 
     }
-    private void openPackingJob(){
-        Intent intent = new Intent(this, PackingJobActivity.class);
+
+    private void openItemsList(){
+        Intent intent = new Intent(this, ItemsActivity.class);
         startActivity(intent);
     }
     private void addJobToList(JobInfo jobInfo){

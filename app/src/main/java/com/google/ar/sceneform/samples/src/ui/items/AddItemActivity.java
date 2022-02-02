@@ -1,4 +1,4 @@
-package com.google.ar.sceneform.samples.src.ui.addItem;
+package com.google.ar.sceneform.samples.src.ui.items;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -17,12 +17,12 @@ public class AddItemActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setContentView(R.layout.activity_add_item);
         SharedDataService instance = SharedDataService.getInstance();
         if (instance.getItem() != null) {
             populateFields(instance.getItem());
         }
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_item);
     }
 
     @Override
@@ -51,9 +51,6 @@ public class AddItemActivity extends AppCompatActivity {
 
         SharedDataService instance = SharedDataService.getInstance();
         Job job = instance.getJob();
-        item.setContainerID(job.getContainer().getContainerId());
-        item.setUserID(instance.getUser().getUserID());
-        item.setJobID(job.getJobID());
 
         item.setName(getStringValueFromID(R.id.itemName));
         item.setDescription(getStringValueFromID(R.id.itemDescription));
@@ -62,7 +59,6 @@ public class AddItemActivity extends AppCompatActivity {
         item.setHeight(getIntValueFromID(R.id.itemHeight));
         item.setWeight(getIntValueFromID(R.id.itemWeight));
         item.setFragile(getBoolValueFromID(R.id.itemIsFragile));
-        item.setPriority(0); //TODO: Is this set by the user?
 
         instance.setItem(item);
     }

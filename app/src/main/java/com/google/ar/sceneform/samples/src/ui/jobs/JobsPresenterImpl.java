@@ -15,8 +15,18 @@ public class JobsPresenterImpl implements JobsPresenter{
 
     @Override
     public Job getJob(String jobId) {
-        return null;
-        //TODO: use http service to get job from jobID
+        //use service to make get request
+        try {
+            String url = Constants.jobsEndpoint + "/" +jobId;
+            String response = service.get(url);
+            Job jobResponse = gson.fromJson(response, Job.class);
+
+            return jobResponse;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
