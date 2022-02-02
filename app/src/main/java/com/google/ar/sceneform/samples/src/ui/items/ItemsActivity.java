@@ -18,8 +18,8 @@ import com.google.ar.sceneform.samples.src.model.Item;
 import com.google.ar.sceneform.samples.src.model.Job;
 import com.google.ar.sceneform.samples.src.model.PackingStrategy;
 import com.google.ar.sceneform.samples.src.services.SharedDataService;
-import com.google.ar.sceneform.samples.src.ui.main.PackingJobPresenter;
-import com.google.ar.sceneform.samples.src.ui.main.PackingJobPresenterImpl;
+import com.google.ar.sceneform.samples.src.ui.items.ItemsPresenter;
+import com.google.ar.sceneform.samples.src.ui.items.ItemsPresenterImpl;
 import com.google.ar.sceneform.samples.src.ui.qrCode.QRCodeActivity;
 
 import java.io.IOException;
