@@ -3,7 +3,6 @@ package com.google.ar.sceneform.samples.src.ui.items;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,11 +11,16 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.SimpleAdapter;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.ar.sceneform.samples.src.R;
 import com.google.ar.sceneform.samples.src.model.Item;
 import com.google.ar.sceneform.samples.src.model.Job;
 import com.google.ar.sceneform.samples.src.model.PackingStrategy;
 import com.google.ar.sceneform.samples.src.services.SharedDataService;
+import com.google.ar.sceneform.samples.src.ui.items.ItemsPresenter;
+import com.google.ar.sceneform.samples.src.ui.items.ItemsPresenterImpl;
+import com.google.ar.sceneform.samples.src.ui.qrCode.QRCodeActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,7 +74,7 @@ public class ItemsActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.scanQr:
-                        //TODO: start QR code activity
+                        scanQrCode();
                         return true;
                     case R.id.manual:
                         editManually();
@@ -85,6 +89,11 @@ public class ItemsActivity extends AppCompatActivity {
 
     private void editManually() {
         Intent intent = new Intent(this, AddItemActivity.class);
+        startActivity(intent);
+    }
+
+    private void scanQrCode() {
+        Intent intent = new Intent(this, QRCodeActivity.class);
         startActivity(intent);
     }
 
