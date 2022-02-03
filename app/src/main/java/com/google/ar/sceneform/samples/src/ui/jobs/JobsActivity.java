@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.ar.sceneform.samples.src.R;
 import com.google.ar.sceneform.samples.src.model.Job;
-import com.google.ar.sceneform.samples.src.model.JobInfo;
 import com.google.ar.sceneform.samples.src.model.JobsList;
 import com.google.ar.sceneform.samples.src.services.SharedDataService;
 import com.google.ar.sceneform.samples.src.ui.items.ItemsActivity;
@@ -49,10 +48,10 @@ public class JobsActivity extends AppCompatActivity {
         adapter = new SimpleAdapter(this, listItems, R.layout.jobslist_item,
                 new String[]{"First Line", "Second Line"},
                 new int[]{R.id.text1, R.id.text2}); //maps data here to UI element
-        for (JobInfo job : jobs.getJobs()) {
+        for (Job job : jobs.getJobs()) {
             HashMap<String, String> listItem = new HashMap<>();
             listItem.put("First Line",job.getName());
-            listItem.put("Second Line", job.getId());
+            listItem.put("Second Line", String.valueOf(job.getJobID()));
             listItems.add(listItem);
         }
         listView.setAdapter(adapter);
@@ -119,23 +118,23 @@ public class JobsActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ItemsActivity.class);
         startActivity(intent);
     }
-    private void addJobToList(JobInfo jobInfo){
+    private void addJobToList(Job jobInfo){
         jobs.addJob(jobInfo); //not necessary, but do for completion
         HashMap<String, String> listItem = new HashMap<>();
         listItem.put("First Line",jobInfo.getName());
-        listItem.put("Second Line", jobInfo.getId());
+        listItem.put("Second Line", String.valueOf(jobInfo.getJobID()));
         listItems.add(listItem);
         adapter.notifyDataSetChanged(); //this tells the UI it needs to refresh itself. (Must be called in UI thread)
     }
 
     private void addJobApi(String jobName){
-        new AsyncTask<String, String, JobInfo>() {
+        new AsyncTask<String, String, Job>() {
             @Override
-            protected JobInfo doInBackground(String... params) {
+            protected Job doInBackground(String... params) {
                 return jobsPresenter.createJob(params[0], params[1]);
             }
             @Override
-            protected void onPostExecute(JobInfo result) {
+            protected void onPostExecute(Job result) {
                 if(result == null) {
                     return;
                 }

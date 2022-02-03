@@ -1,12 +1,8 @@
 package com.google.ar.sceneform.samples.src.ui.jobs;
 
 import com.google.ar.sceneform.samples.src.model.Job;
-import com.google.ar.sceneform.samples.src.model.JobInfo;
-import com.google.ar.sceneform.samples.src.model.LoginResponse;
-import com.google.ar.sceneform.samples.src.model.User;
 import com.google.ar.sceneform.samples.src.services.Constants;
 import com.google.ar.sceneform.samples.src.services.HttpRequestService;
-import com.google.ar.sceneform.samples.src.services.SharedDataService;
 import com.google.gson.Gson;
 
 public class JobsPresenterImpl implements JobsPresenter{
@@ -30,13 +26,13 @@ public class JobsPresenterImpl implements JobsPresenter{
     }
 
     @Override
-    public JobInfo createJob(String userId, String jobName) {
+    public Job createJob(String userId, String jobName) {
         String body = "{\"user_id\": "+userId+",\"job_name\": \""+jobName+"\"}";
 
         //use service to make get request
         try {
             String response = service.post(Constants.jobsEndpoint, body);
-            return gson.fromJson(response, JobInfo.class);
+            return gson.fromJson(response, Job.class);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
