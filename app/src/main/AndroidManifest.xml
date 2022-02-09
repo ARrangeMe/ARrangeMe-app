@@ -30,6 +30,10 @@
         android:usesCleartextTraffic="false"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+
+            android:name=".ui.register.RegisterActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.qrCode.QRCodeActivity"
             android:exported="true" />
         <activity
@@ -58,6 +62,7 @@
             </intent-filter>
         </activity>
         <activity
+
             android:name=".ui.measurement.SceneformActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true"

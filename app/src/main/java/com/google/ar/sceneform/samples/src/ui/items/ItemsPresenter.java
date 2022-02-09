@@ -1,9 +1,7 @@
 package com.google.ar.sceneform.samples.src.ui.items;
 
-import com.google.ar.sceneform.samples.src.model.PackingStrategy;
-
-import java.io.IOException;
+import com.google.ar.sceneform.samples.src.model.Job;
 
 public interface ItemsPresenter {
-    public PackingStrategy getPackingStrategy();
+    public Job getPackingStrategy();
 }

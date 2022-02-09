@@ -1,49 +1,44 @@
 package com.google.ar.sceneform.samples.src.model;
 
 
-import java.util.Date;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class Item {
-    private int containerID;
+    @SerializedName(value="id")
     private int itemID;
-    private int userID;
-    private int jobID;
-    private Date createdDate;
+    @SerializedName(value="qr_img")
+    private String qrCode;
+
     private double width;
     private double length;
     private double height;
     private double weight;
+
     private boolean isFragile;
-    private int priority;
+    @SerializedName(value="item_name")
     private String name;
     private String description;
-    private int qrCode;
+
+
+    private int orientation;
+
+    private List<Integer> pivot;
 
     public Item() {}
 
-    public Item(int containerID, int itemID, int userID, int jobID, Date createdDate, double width, double length, double height, double weight, boolean isFragile, int priority, String name, String description) {
-        this.setContainerID(containerID);
+    public Item( int itemID, double width, double length, double height, double weight, boolean isFragile, String name, String description) {
         this.setItemID(itemID);
-        this.setUserID(userID);
-        this.setJobID(jobID);
-        this.setCreatedDate(createdDate);
         this.setWidth(width);
         this.setLength(length);
         this.setHeight(height);
         this.setWeight(weight);
         this.setFragile(isFragile);
-        this.setPriority(priority);
         this.setName(name);
         this.setDescription(description);
     }
 
-    public int getContainerID() {
-        return containerID;
-    }
-
-    public void setContainerID(int containerID) {
-        this.containerID = containerID;
-    }
 
     public int getItemID() {
         return itemID;
@@ -51,30 +46,6 @@ public class Item {
 
     public void setItemID(int itemID) {
         this.itemID = itemID;
-    }
-
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
-
-    public int getJobID() {
-        return jobID;
-    }
-
-    public void setJobID(int jobID) {
-        this.jobID = jobID;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
     }
 
     public double getWidth() {
@@ -115,14 +86,6 @@ public class Item {
 
     public void setFragile(boolean fragile) {
         isFragile = fragile;
-    }
-
-    public int getPriority() {
-        return priority;
-    }
-
-    public void setPriority(int priority) {
-        this.priority = priority;
     }
 
     public String getName() {

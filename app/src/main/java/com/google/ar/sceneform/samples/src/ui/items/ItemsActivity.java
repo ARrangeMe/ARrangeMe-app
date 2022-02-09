@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.ar.sceneform.samples.src.R;
 import com.google.ar.sceneform.samples.src.model.Item;
 import com.google.ar.sceneform.samples.src.model.Job;
-import com.google.ar.sceneform.samples.src.model.PackingStrategy;
 import com.google.ar.sceneform.samples.src.services.SharedDataService;
 import com.google.ar.sceneform.samples.src.ui.items.ItemsPresenter;
 import com.google.ar.sceneform.samples.src.ui.items.ItemsPresenterImpl;
@@ -40,7 +39,7 @@ public class ItemsActivity extends AppCompatActivity {
         this.itemsPresenter = new ItemsPresenterImpl();
         this.job = SharedDataService.getInstance().getJob();
         if (job != null) {
-            this.items = job.getItems();
+            this.items = job.getItemsUnpacked(); //TODO:revisit this later
         }
         ListView listView = (ListView) findViewById(R.id.itemsListView);
 
@@ -98,15 +97,15 @@ public class ItemsActivity extends AppCompatActivity {
     }
 
     public void generateStrategy(View view) throws IOException {
-        new AsyncTask<String, String, PackingStrategy>() {
+        new AsyncTask<String, String, Job>() {
             // potential for memory leak if this task lives longer than the main thread. Unlikely.
             @Override
-            protected PackingStrategy doInBackground(String... username) {
+            protected Job doInBackground(String... username) {
                 return itemsPresenter.getPackingStrategy();
             }
 
             @Override
-            protected void onPostExecute(PackingStrategy result) {
+            protected void onPostExecute(Job result) {
                 //pipe the result to a new activity
                 if (result == null) {
                     //there was a problem
@@ -119,7 +118,7 @@ public class ItemsActivity extends AppCompatActivity {
 
     }
 
-    private void showPackingStrategy(PackingStrategy strategy) {
+    private void showPackingStrategy(Job strategy) {
         //TODO:open new activity and send the strategy
     }
 }

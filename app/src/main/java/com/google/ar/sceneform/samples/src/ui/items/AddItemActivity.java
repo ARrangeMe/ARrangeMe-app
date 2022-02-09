@@ -52,9 +52,6 @@ public class AddItemActivity extends AppCompatActivity {
 
         SharedDataService instance = SharedDataService.getInstance();
         Job job = instance.getJob();
-        item.setContainerID(job.getContainer().getContainerId());
-        item.setUserID(instance.getUser().getUserID());
-        item.setJobID(job.getJobID());
 
         item.setName(getStringValueFromID(R.id.itemName));
         item.setDescription(getStringValueFromID(R.id.itemDescription));
@@ -63,7 +60,6 @@ public class AddItemActivity extends AppCompatActivity {
         item.setHeight(getIntValueFromID(R.id.itemHeight));
         item.setWeight(getIntValueFromID(R.id.itemWeight));
         item.setFragile(getBoolValueFromID(R.id.itemIsFragile));
-        item.setPriority(0); //TODO: Is this set by the user?
 
         instance.setItem(item);
     }
