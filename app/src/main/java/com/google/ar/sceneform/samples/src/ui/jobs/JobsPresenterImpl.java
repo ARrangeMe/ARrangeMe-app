@@ -38,4 +38,14 @@ public class JobsPresenterImpl implements JobsPresenter{
             return null;
         }
     }
+
+    @Override
+    public void deleteJob(String jobId) {
+        try {
+            String url = Constants.jobsEndpoint + "/" +jobId;
+            service.delete(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

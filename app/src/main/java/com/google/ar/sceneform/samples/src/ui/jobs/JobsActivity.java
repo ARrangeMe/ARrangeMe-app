@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,19 +18,20 @@ import com.google.ar.sceneform.samples.src.R;
 import com.google.ar.sceneform.samples.src.model.Job;
 import com.google.ar.sceneform.samples.src.model.JobsList;
 import com.google.ar.sceneform.samples.src.services.SharedDataService;
+import com.google.ar.sceneform.samples.src.ui.ListUtils.CustomListAdapter;
+import com.google.ar.sceneform.samples.src.ui.ListUtils.CustomListItem;
 import com.google.ar.sceneform.samples.src.ui.items.ItemsActivity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class JobsActivity extends AppCompatActivity {
     private JobsList jobs;
     private JobsPresenter jobsPresenter;
     private Integer userId;
-    private List<HashMap<String, String>> listItems;
+    private List<CustomListItem> listItems;
     private ListView listView;
-    SimpleAdapter adapter;
+    CustomListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,21 +45,20 @@ public class JobsActivity extends AppCompatActivity {
 
         listItems = new ArrayList<>();// add items to list as a hashmap
 
-        adapter = new SimpleAdapter(this, listItems, R.layout.jobslist_item,
-                new String[]{"First Line", "Second Line"},
-                new int[]{R.id.text1, R.id.text2}); //maps data here to UI element
+
         for (Job job : jobs.getJobs()) {
-            HashMap<String, String> listItem = new HashMap<>();
-            listItem.put("First Line",job.getName());
-            listItem.put("Second Line", String.valueOf(job.getJobID()));
+            CustomListItem listItem = new CustomListItem(job.getName(),String.valueOf(job.getJobID()));
             listItems.add(listItem);
         }
+
+        adapter = new CustomListAdapter(listItems, this);
+
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String jobName = ((TextView) view.findViewById(R.id.text1)).getText().toString();
-                String jobId = listItems.get(position).get("Second Line");
+                String jobId = listItems.get(position).getText2();
 
                 new AsyncTask<String, String, Job>() {
                     // potential for memory leak if this task lives longer than the main thread. Unlikely.
@@ -120,9 +119,7 @@ public class JobsActivity extends AppCompatActivity {
     }
     private void addJobToList(Job jobInfo){
         jobs.addJob(jobInfo); //not necessary, but do for completion
-        HashMap<String, String> listItem = new HashMap<>();
-        listItem.put("First Line",jobInfo.getName());
-        listItem.put("Second Line", String.valueOf(jobInfo.getJobID()));
+        CustomListItem listItem = new CustomListItem(jobInfo.getName(),String.valueOf(jobInfo.getJobID()));
         listItems.add(listItem);
         adapter.notifyDataSetChanged(); //this tells the UI it needs to refresh itself. (Must be called in UI thread)
     }

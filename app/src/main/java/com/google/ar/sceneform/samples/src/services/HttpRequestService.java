@@ -40,4 +40,17 @@ public class HttpRequestService {
             return response.body().string();
         }
     }
+
+    public String delete(String url) throws IOException{
+        Request request = new Request.Builder()
+                .url(url)
+                .delete()
+                .build();
+        try (Response response = client.newCall(request).execute()) {
+            if (response.code() >=400) {
+                throw new IOException("Response code: "+response.code());
+            }
+            return response.body().string();
+        }
+    }
 }
