@@ -1,20 +1,14 @@
 package com.google.ar.sceneform.samples.src.services;
 
-import com.google.ar.sceneform.samples.src.model.Container;
-import com.google.ar.sceneform.samples.src.model.PackingStrategy;
-import com.google.gson.Gson;
-
 import java.io.IOException;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class SortingServerService {
+public class HttpRequestService {
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
     OkHttpClient client = new OkHttpClient();
@@ -27,7 +21,7 @@ public class SortingServerService {
                 .post(body)
                 .build();
         try (Response response = client.newCall(request).execute()) {
-            if (response.code() != 200) {
+            if (response.code() >=400) {
                 throw new IOException("Response code: "+response.code());
             }
             return response.body().string();
@@ -35,12 +29,25 @@ public class SortingServerService {
 
     }
 
-    public String get(String url, String json) throws IOException{
+    public String get(String url) throws IOException{
         Request request = new Request.Builder()
                 .url(url)
                 .build();
         try (Response response = client.newCall(request).execute()) {
-            if (response.code() != 200) {
+            if (response.code() >=400) {
+                throw new IOException("Response code: "+response.code());
+            }
+            return response.body().string();
+        }
+    }
+
+    public String delete(String url) throws IOException{
+        Request request = new Request.Builder()
+                .url(url)
+                .delete()
+                .build();
+        try (Response response = client.newCall(request).execute()) {
+            if (response.code() >=400) {
                 throw new IOException("Response code: "+response.code());
             }
             return response.body().string();

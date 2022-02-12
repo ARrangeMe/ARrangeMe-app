@@ -2,10 +2,15 @@ package com.google.ar.sceneform.samples.src.ui.render;
 
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.MotionEvent;
 
 import com.google.ar.sceneform.samples.src.R;
+import com.google.ar.sceneform.samples.src.model.Item;
+import com.google.ar.sceneform.samples.src.model.Job;
+import com.google.ar.sceneform.samples.src.model.JobsList;
+import com.google.ar.sceneform.samples.src.services.SharedDataService;
+import com.google.ar.sceneform.samples.src.ui.ListUtils.CustomListItem;
 import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Light;
@@ -20,6 +25,8 @@ import com.threed.jpct.util.BitmapHelper;
 import com.threed.jpct.util.MemoryHelper;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -28,6 +35,7 @@ public class RenderActivity extends AppCompatActivity {
     // Used to handle pause and resume...
     private static RenderActivity master = null; //used for pause/resume handling
 
+    private Job job;
     private GLSurfaceView mGLView;
     private MyRenderer renderer = null;
     private FrameBuffer fb = null;
@@ -52,13 +60,17 @@ public class RenderActivity extends AppCompatActivity {
             copy(master);
         }
 
+        SharedDataService instance = SharedDataService.getInstance();
+        if (instance.getJob() != null) {
+            job = instance.getJob();
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_render);
         mGLView = (GLSurfaceView) findViewById(R.id.renderView); //this is where the render is actually shown
 
         renderer = new MyRenderer();
         mGLView.setRenderer(renderer);
-
     }
 
     @Override
@@ -122,7 +134,7 @@ public class RenderActivity extends AppCompatActivity {
         return super.onTouchEvent(me);
     }
 
-    Object3D makeBox(SimpleVector pivotPoint, float width, float height, float length) {
+    Object3D makeBox(SimpleVector pivotPoint, double width, double height, double length) {
         Object3D box=new Object3D(12);
 
         // in JPCT, positive coordinate is x to right, y to down, z into screen
@@ -160,9 +172,7 @@ public class RenderActivity extends AppCompatActivity {
         box.addTriangle(upperRightFront,0,0, lowerRightFront,0,1, upperRightBack,1,0);
         box.addTriangle(upperRightBack,1,0, lowerRightFront, 0,1, lowerRightBack,1,1);
 
-        // Create a texture out of the icon...:-)
-        Texture texture = new Texture(BitmapHelper.rescale(BitmapHelper.convert(getResources().getDrawable(R.drawable.ic_launcher)), 64, 64));
-        TextureManager.getInstance().addTexture("texture", texture);
+        // set the box texture
         box.setTexture("texture");
         box.build();
 
@@ -190,13 +200,25 @@ public class RenderActivity extends AppCompatActivity {
                 sun = new Light(world);
                 sun.setIntensity(250, 250, 250);
 
+                // Create a texture out of the icon...:-)
+                Texture texture = new Texture(BitmapHelper.rescale(BitmapHelper.convert(getResources().getDrawable(R.drawable.ic_launcher)), 64, 64));
+                TextureManager.getInstance().addTexture("texture", texture);
+
                 // edit rendering logic here
                 SimpleVector dummy = new SimpleVector(0,0,0);
-                cube = makeBox(dummy, 30, 30, 30);
-                // pre-build all the packing items here and store them in a list for performance.
-                // We can choose whether or not to render them later.
+                List<Item> itemsToRender = job.getItemsUnpacked();
 
-                world.addObject(cube);
+                for(Item item : itemsToRender){
+                    // where do i get the vector for the reference point?
+                    cube = makeBox(dummy, item.getWidth(), item.getHeight(), item.getLength());
+                    world.addObject(cube);
+                    // pre-build all the packing items here and store them in a list for performance.
+                    // We can choose whether or not to render them later.
+                    List<Object3D> storedItems = new ArrayList<>();
+                    storedItems.add(cube);
+                }
+
+
 
                 Camera cam = world.getCamera();
                 cam.moveCamera(Camera.CAMERA_MOVEOUT, 50);

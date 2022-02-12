@@ -6,17 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Container {
-    @SerializedName(value = "container_id")
+    @SerializedName(value = "container_id", alternate={"id"})
     private final int containerId;
     private double width;
     private double height;
     private double depth;
     @SerializedName(value = "used_space")
-    private int usedSpace;
+    private double usedSpace;
     @SerializedName(value = "used_weight")
-    private int usedWeight;
-    @SerializedName(value = "packed_items")
-    private List<PackedItem> packedItems;
+    private double usedWeight;
+    @SerializedName(value = "max_weight")
+    private double maxWeight;
+
 
     public Container(int containerId, double width, double height, double depth) {
         this.containerId = containerId;
@@ -25,7 +26,6 @@ public class Container {
         this.depth = depth;
         this.usedSpace = 0;
         this.usedWeight = 0;
-        this.packedItems = new ArrayList<>();
     }
 
     public int getContainerId() {
@@ -56,7 +56,7 @@ public class Container {
         this.depth = depth;
     }
 
-    public int getUsedSpace() {
+    public double getUsedSpace() {
         return usedSpace;
     }
 
@@ -64,7 +64,7 @@ public class Container {
         this.usedSpace = usedSpace;
     }
 
-    public int getUsedWeight() {
+    public double getUsedWeight() {
         return usedWeight;
     }
 
@@ -72,19 +72,5 @@ public class Container {
         this.usedWeight = usedWeight;
     }
 
-    public List<PackedItem> getPackedItems() {
-        return packedItems;
-    }
 
-    public void setPackedItems(List<PackedItem> packedItems) {
-        this.packedItems = packedItems;
-    }
-
-    public void addPackedItem(PackedItem p) {
-        this.packedItems.add(p);
-    }
-
-    public boolean isEmpty() {
-        return this.packedItems.isEmpty();
-    }
 }
