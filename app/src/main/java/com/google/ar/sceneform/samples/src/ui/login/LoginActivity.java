@@ -11,11 +11,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.ar.sceneform.samples.src.R;
+import com.google.ar.sceneform.samples.src.model.Container;
+import com.google.ar.sceneform.samples.src.model.Item;
+import com.google.ar.sceneform.samples.src.model.Job;
 import com.google.ar.sceneform.samples.src.model.JobsList;
 import com.google.ar.sceneform.samples.src.services.SharedDataService;
 import com.google.ar.sceneform.samples.src.ui.dialogs.LoginFailedDialogFragment;
 import com.google.ar.sceneform.samples.src.ui.jobs.JobsActivity;
+import com.google.ar.sceneform.samples.src.ui.render.RenderActivity;
 import com.google.ar.sceneform.samples.src.ui.register.RegisterActivity;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
     private LoginPresenter loginPresenter;
@@ -31,6 +39,30 @@ public class LoginActivity extends AppCompatActivity {
     public void openJobs(){
         Intent intent = new Intent(this, JobsActivity.class);
         startActivity(intent);
+    }
+    public void openRender(){
+        Container container = new Container(11,1.0,2.0,3.0);
+        Job job = new Job(42,container);
+        List<Item> itemsPacked = new ArrayList<>();
+        Item item1 = new Item();
+        item1.setWidth(1);
+        item1.setLength(1);
+        item1.setHeight(1);
+        item1.setPivot(Arrays.asList(0,0,0));
+        itemsPacked.add(item1);
+        Item item2 = new Item();
+        item2.setWidth(2);
+        item2.setLength(1);
+        item2.setHeight(1);
+        item2.setPivot(Arrays.asList(1,1,1));
+        itemsPacked.add(item2);
+        job.setItemsPacked(itemsPacked);
+        SharedDataService.getInstance().setJob(job);
+        Intent intent = new Intent(this, RenderActivity.class);
+        startActivity(intent);
+    }
+    public void onRenderClick(View view) {
+        openRender();
     }
 
     public void onClick(View view) {

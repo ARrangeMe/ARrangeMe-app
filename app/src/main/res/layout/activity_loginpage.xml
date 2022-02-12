@@ -39,5 +39,18 @@
         app:layout_constraintStart_toStartOf="@+id/editTextLogin"
         app:layout_constraintTop_toBottomOf="@+id/editTextLogin" />
 
+
+    <Button
+        android:id="@+id/renderTestButton"
+        android:layout_width="115dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:onClick="onRenderClick"
+        android:text="Render"
+        app:layout_constraintEnd_toEndOf="@+id/loginButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/loginButton"
+        app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

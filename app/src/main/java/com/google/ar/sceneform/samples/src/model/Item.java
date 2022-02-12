@@ -2,6 +2,7 @@ package com.google.ar.sceneform.samples.src.model;
 
 
 import com.google.gson.annotations.SerializedName;
+import com.threed.jpct.SimpleVector;
 
 import java.util.List;
 
@@ -102,5 +103,13 @@ public class Item {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public SimpleVector getPivot(){
+        return new SimpleVector(pivot.get(0),pivot.get(1),pivot.get(2)); //i hope this is the right ordering  (x,y,z)
+    }
+
+    public void setPivot(List<Integer> pivot){
+        this.pivot = pivot;
     }
 }
