@@ -8,9 +8,7 @@ import android.view.MotionEvent;
 import com.google.ar.sceneform.samples.src.R;
 import com.google.ar.sceneform.samples.src.model.Item;
 import com.google.ar.sceneform.samples.src.model.Job;
-import com.google.ar.sceneform.samples.src.model.JobsList;
 import com.google.ar.sceneform.samples.src.services.SharedDataService;
-import com.google.ar.sceneform.samples.src.ui.ListUtils.CustomListItem;
 import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Light;
@@ -48,9 +46,11 @@ public class RenderActivity extends AppCompatActivity {
     private float xpos = -1;
     private float ypos = -1;
 
-    private Object3D cube = null;
+
 
     private Light sun = null;
+
+    private SimpleVector worldCenter =  new SimpleVector(0,0,0);
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -205,12 +205,12 @@ public class RenderActivity extends AppCompatActivity {
                 TextureManager.getInstance().addTexture("texture", texture);
 
                 // edit rendering logic here
-                SimpleVector dummy = new SimpleVector(0,0,0);
-                List<Item> itemsToRender = job.getItemsUnpacked();
+                List<Item> itemsToRender = job.getItemsPacked();
+
 
                 for(Item item : itemsToRender){
                     // where do i get the vector for the reference point?
-                    cube = makeBox(dummy, item.getWidth(), item.getHeight(), item.getLength());
+                    Object3D cube = makeBox(item.getPivot(), item.getWidth(), item.getHeight(), item.getLength());
                     world.addObject(cube);
                     // pre-build all the packing items here and store them in a list for performance.
                     // We can choose whether or not to render them later.
@@ -221,12 +221,12 @@ public class RenderActivity extends AppCompatActivity {
 
 
                 Camera cam = world.getCamera();
-                cam.moveCamera(Camera.CAMERA_MOVEOUT, 50);
-                cam.lookAt(cube.getTransformedCenter());
+                cam.moveCamera(Camera.CAMERA_MOVEOUT, 3);
+                cam.lookAt(worldCenter);
 
                 // probably doesn't ever have to be changed
                 SimpleVector sv = new SimpleVector();
-                sv.set(cube.getTransformedCenter());
+                sv.set(worldCenter);
                 sv.y -= 100;
                 sv.z -= 100;
                 sun.setPosition(sv);
@@ -251,8 +251,8 @@ public class RenderActivity extends AppCompatActivity {
             cam.rotateY(touchTurn);
             touchTurn = 0; //reset these values
             touchTurnUp = 0;
-            cam.setPosition(cube.getTransformedCenter()); // move camera to center of scene
-            cam.moveCamera(Camera.CAMERA_MOVEOUT, 50); //move the camera backwards relative to current direction
+            cam.setPosition(worldCenter); // move camera to center of scene
+            cam.moveCamera(Camera.CAMERA_MOVEOUT, 3); //move the camera backwards relative to current direction
 
             //these four steps do the actual drawing
             fb.clear(back); //clear previous frame

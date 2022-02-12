@@ -49,4 +49,8 @@ public class Job {
     public String getName() {
         return name;
     }
+
+    public void setItemsPacked(List<Item> itemsPacked) {
+        this.itemsPacked = itemsPacked;
+    }
 }
