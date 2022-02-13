@@ -1,6 +1,7 @@
-package com.google.ar.sceneform.samples.src.ui.ListUtils;
+package com.google.ar.sceneform.samples.src.ui.jobs.ListUtils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +11,15 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.ar.sceneform.samples.src.R;
+import com.google.ar.sceneform.samples.src.model.Job;
+import com.google.ar.sceneform.samples.src.services.SharedDataService;
+import com.google.ar.sceneform.samples.src.ui.items.ItemsActivity;
 import com.google.ar.sceneform.samples.src.ui.jobs.JobsPresenter;
 import com.google.ar.sceneform.samples.src.ui.jobs.JobsPresenterImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomListAdapter extends BaseAdapter implements ListAdapter {
     private List<CustomListItem> list = new ArrayList<>();
@@ -54,10 +58,38 @@ public class CustomListAdapter extends BaseAdapter implements ListAdapter {
         }
 
         //Handle TextView and display string from your list
+        String jobName = list.get(position).getText1();
+        String jobId = list.get(position).getText2();
         TextView listItemText1 = (TextView)view.findViewById(R.id.text1);
-        listItemText1.setText(list.get(position).text1);
+        listItemText1.setText(jobName);
         TextView listItemText2 = (TextView)view.findViewById(R.id.text2);
-        listItemText2.setText(list.get(position).text2);
+        listItemText2.setText(jobId);
+
+        listItemText1.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+
+                new AsyncTask<String, String, Job>() {
+                    // potential for memory leak if this task lives longer than the main thread. Unlikely.
+                    @Override
+                    protected Job doInBackground(String... jobId) {
+                        return jobsPresenter.getJob(jobId[0]);
+                    }
+                    @Override
+                    protected void onPostExecute(Job result) {
+                        //pipe the result to a new activity
+                        if(result == null) {
+                            //there was a problem. TODO: print to logs or something
+                            return;
+                        }
+                        //set the data we'll need on the next app screen
+                        SharedDataService.getInstance().setJob(result);
+                        openItemsList();
+                    }
+                }.execute(jobId);
+            }
+        });
 
         //Handle buttons and add onClickListeners
         Button deleteButton = (Button)view.findViewById(R.id.deleteButton);
@@ -68,11 +100,8 @@ public class CustomListAdapter extends BaseAdapter implements ListAdapter {
                 deleteJob(list.get(position).text2);
                 list.remove(position); //or some other task
                 notifyDataSetChanged();
-
             }
         });
-
-
         return view;
     }
 
@@ -94,5 +123,10 @@ public class CustomListAdapter extends BaseAdapter implements ListAdapter {
                 }
             }
         }.execute(jobId);
+    }
+
+    private void openItemsList(){
+        Intent intent = new Intent(context, ItemsActivity.class);
+        context.startActivity(intent);
     }
 }

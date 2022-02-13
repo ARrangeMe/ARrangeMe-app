@@ -1,4 +1,4 @@
-package com.google.ar.sceneform.samples.src.ui.ListUtils;
+package com.google.ar.sceneform.samples.src.ui.jobs.ListUtils;
 
 public class CustomListItem {
     String text1;
