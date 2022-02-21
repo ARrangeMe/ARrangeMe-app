@@ -35,7 +35,7 @@ public class AddItemActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    public void editDimensions(View view) {
+    public void editDimensions(View view) throws Exception {
         submitButtonHandler(null);
         Intent intent = new Intent(this, SceneformActivity.class);
         startActivity(intent);
@@ -47,11 +47,12 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
 
-    public void submitButtonHandler(View view) {
-        Item item = new Item();
-
+    public void submitButtonHandler(View view) throws Exception {
         SharedDataService instance = SharedDataService.getInstance();
-        Job job = instance.getJob();
+        Item item = instance.getItem();
+        if (item.getItemID() == 0) {
+            throw new Exception("Item missing item id");
+        }
 
         item.setName(getStringValueFromID(R.id.itemName));
         item.setDescription(getStringValueFromID(R.id.itemDescription));
