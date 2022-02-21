@@ -4,11 +4,14 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.MotionEvent;
+import android.widget.ListView;
 
 import com.google.ar.sceneform.samples.src.R;
 import com.google.ar.sceneform.samples.src.model.Item;
 import com.google.ar.sceneform.samples.src.model.Job;
 import com.google.ar.sceneform.samples.src.services.SharedDataService;
+import com.google.ar.sceneform.samples.src.ui.register.RenderListUtils.RenderListAdapter;
+import com.google.ar.sceneform.samples.src.ui.register.RenderListUtils.RenderListItem;
 import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Light;
@@ -46,6 +49,10 @@ public class RenderActivity extends AppCompatActivity {
     private float xpos = -1;
     private float ypos = -1;
 
+    private List<RenderListItem> listItems;
+    private ListView listView;
+    private RenderListAdapter adapter;
+
 
 
     private Light sun = null;
@@ -71,6 +78,20 @@ public class RenderActivity extends AppCompatActivity {
 
         renderer = new MyRenderer();
         mGLView.setRenderer(renderer);
+
+        listView = (ListView) findViewById(R.id.packedItemsListView);
+
+        listItems = new ArrayList<>();// add items to list as a hashmap
+
+
+        for (Item item : job.getItemsPacked()) {
+            RenderListItem listItem = new RenderListItem(item.getName(),String.valueOf(item.getItemID()));
+            listItems.add(listItem);
+        }
+
+        adapter = new RenderListAdapter(listItems, this);
+
+        listView.setAdapter(adapter);
     }
 
     @Override
@@ -207,18 +228,21 @@ public class RenderActivity extends AppCompatActivity {
                 // edit rendering logic here
                 List<Item> itemsToRender = job.getItemsPacked();
 
-
+                int count = 0;
                 for(Item item : itemsToRender){
                     // where do i get the vector for the reference point?
                     Object3D cube = makeBox(item.getPivot(), item.getWidth(), item.getHeight(), item.getLength());
                     world.addObject(cube);
+
+                    // cache the handle to the object so we can change its attributes dynamically later
+                    listItems.get(count).setObject(cube);
+
                     // pre-build all the packing items here and store them in a list for performance.
                     // We can choose whether or not to render them later.
                     List<Object3D> storedItems = new ArrayList<>();
                     storedItems.add(cube);
+                    count++;
                 }
-
-
 
                 Camera cam = world.getCamera();
                 cam.moveCamera(Camera.CAMERA_MOVEOUT, 3);
