@@ -1,5 +1,6 @@
 package com.google.ar.sceneform.samples.src.ui.render;
 
+import android.graphics.Color;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,7 @@ import com.threed.jpct.util.MemoryHelper;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -52,8 +54,6 @@ public class RenderActivity extends AppCompatActivity {
     private List<RenderListItem> listItems;
     private ListView listView;
     private RenderListAdapter adapter;
-
-
 
     private Light sun = null;
 
@@ -195,6 +195,8 @@ public class RenderActivity extends AppCompatActivity {
 
         // set the box texture
         box.setTexture("texture");
+        Random random = new Random();
+        box.setAdditionalColor(random.nextInt(255), random.nextInt(255), random.nextInt(255));
         box.build();
 
         return box;
