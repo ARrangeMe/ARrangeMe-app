@@ -29,7 +29,11 @@ public class Item {
 
     public Item() {}
 
-    public Item( int itemID, double width, double length, double height, double weight, boolean isFragile, String name, String description) {
+    public Item(int itemID) {
+        this.setItemID(itemID);
+    }
+
+    public Item(int itemID, double width, double length, double height, double weight, boolean isFragile, String name, String description) {
         this.setItemID(itemID);
         this.setWidth(width);
         this.setLength(length);

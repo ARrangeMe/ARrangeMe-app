@@ -1,5 +1,6 @@
 package com.google.ar.sceneform.samples.src.ui.login;
 
+import com.google.ar.sceneform.samples.src.services.Constants;
 import com.google.ar.sceneform.samples.src.model.Job;
 import com.google.ar.sceneform.samples.src.model.JobsList;
 import com.google.ar.sceneform.samples.src.model.LoginResponse;
@@ -37,7 +38,8 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
     private JobsList getJobsFromUserId(int id){
         try {
-            String response = service.get("https://y4ff702tki.execute-api.us-east-2.amazonaws.com/prod/users/"+id+"/jobs");
+            String endpoint = String.format(Constants.userJobsEndpoint, id);
+            String response = service.get(endpoint);
             return gson.fromJson(response, JobsList.class);
         } catch (Exception e) {
             e.printStackTrace();

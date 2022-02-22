@@ -75,9 +75,9 @@ public class ItemsActivity extends AppCompatActivity {
                     case R.id.scanQr:
                         scanQrCode();
                         return true;
-                    case R.id.manual:
-                        editManually();
-                        return true;
+//                    case R.id.manual:
+//                        editManually();
+//                        return true;
                     default:
                         return false;
                 }

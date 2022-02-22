@@ -45,25 +45,9 @@ public class QRCodeActivity extends AppCompatActivity {
         IntentResult result = IntentIntegrator.parseActivityResult(resultCode, data);
         if (result.getContents() != null) {
             int itemID = Integer.parseInt(result.getContents());
-
-            new AsyncTask<String, String, Item>() {
-                // potential for memory leak if this task lives longer than the main thread. Unlikely.
-                @Override
-                protected Item doInBackground(String... username) {
-                    return qrPresenter.getItemFromID(itemID);
-                }
-                @Override
-                protected void onPostExecute(Item result) {
-                    //pipe the result to a new activity
-                    if(result == null) {
-                        //there was a problem
-                        return;
-                    }
-                    //set the data we'll need on the next app screen
-                    SharedDataService.getInstance().setItem(result);
-                    openEdit();
-                }
-            }.execute("test");
+            Item item = new Item(itemID);
+            SharedDataService.getInstance().setItem(item);
+            openEdit();
 
             finish();
         }

@@ -4,6 +4,6 @@
         android:id="@+id/scanQr"
         android:icon="@android:drawable/ic_menu_camera"
         android:title="@string/qr" />
-    <item android:id="@+id/manual"
-        android:title="@string/manual" />
+<!--    <item android:id="@+id/manual"-->
+<!--        android:title="@string/manual" />-->
 </menu>
