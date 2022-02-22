@@ -194,7 +194,6 @@ public class RenderActivity extends AppCompatActivity {
         box.addTriangle(upperRightBack,1,0, lowerRightFront, 0,1, lowerRightBack,1,1);
 
         // set the box texture
-        box.setTexture("texture");
         Random random = new Random();
         box.setAdditionalColor(random.nextInt(255), random.nextInt(255), random.nextInt(255));
         box.build();
@@ -222,10 +221,6 @@ public class RenderActivity extends AppCompatActivity {
                 // probably never have to change the sun
                 sun = new Light(world);
                 sun.setIntensity(250, 250, 250);
-
-                // Create a texture out of the icon...:-)
-                Texture texture = new Texture(BitmapHelper.rescale(BitmapHelper.convert(getResources().getDrawable(R.drawable.ic_launcher)), 64, 64));
-                TextureManager.getInstance().addTexture("texture", texture);
 
                 // edit rendering logic here
                 List<Item> itemsToRender = job.getItemsPacked();
