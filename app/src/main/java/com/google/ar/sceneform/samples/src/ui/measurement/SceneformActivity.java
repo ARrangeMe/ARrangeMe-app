@@ -137,7 +137,7 @@ public class SceneformActivity extends AppCompatActivity implements SceneformVie
 
                 double distance = sceneformPresenter.getDistance();
                 if (distance > 0) {
-                    String distanceText = formatter.format(distance);
+                    String distanceText = formatter.format(distance*100);
 
                     TextView textView = null;
                     if (side.equals(Measurement.HEIGHT)) {
