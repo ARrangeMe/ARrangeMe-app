@@ -301,7 +301,7 @@ public class RenderActivity extends AppCompatActivity {
                 worldCenter = container.getTransformedCenter();
                 Camera cam = world.getCamera();
                 cam.setPosition(worldCenter); // move camera to center of scene
-                cam.moveCamera(Camera.CAMERA_MOVEOUT, 5);
+                cam.moveCamera(Camera.CAMERA_MOVEOUT, 8);
 
                 // probably doesn't ever have to be changed
                 SimpleVector sv = new SimpleVector();
@@ -331,7 +331,7 @@ public class RenderActivity extends AppCompatActivity {
             touchTurn = 0; //reset these values
             touchTurnUp = 0;
             cam.setPosition(worldCenter); // move camera to center of scene
-            cam.moveCamera(Camera.CAMERA_MOVEOUT, 5); //move the camera backwards relative to current direction
+            cam.moveCamera(Camera.CAMERA_MOVEOUT, 8); //move the camera backwards relative to current direction
 
             //these four steps do the actual drawing
             fb.clear(back); //clear previous frame
