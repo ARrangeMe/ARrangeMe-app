@@ -15,5 +15,6 @@ public class Constants {
             "https://y4ff702tki.execute-api.us-east-2.amazonaws.com/prod/items";
     public static String commitJobEndpoint =
             "https://y4ff702tki.execute-api.us-east-2.amazonaws.com/prod/jobs/%s/qr";
-
+    public static String packJobEndpoint =
+            "https://y4ff702tki.execute-api.us-east-2.amazonaws.com/prod/jobs/%s/pack/qr";
 }

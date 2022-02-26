@@ -4,10 +4,13 @@ package com.google.ar.sceneform.samples.src.model;
 import com.google.gson.annotations.SerializedName;
 import com.threed.jpct.SimpleVector;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 public class Item {
-    @SerializedName(value="id")
+    @SerializedName(value="item_id")
     private int itemID;
     @SerializedName(value="qr_img")
     private String qrCode;
@@ -16,7 +19,6 @@ public class Item {
     private double length;
     private double height;
     private double weight;
-
     private boolean isFragile;
     @SerializedName(value="item_name")
     private String name;
@@ -94,7 +96,7 @@ public class Item {
     }
 
     public String getName() {
-        return name;
+        return name != null ? name : "";
     }
 
     public void setName(String name) {
@@ -102,7 +104,7 @@ public class Item {
     }
 
     public String getDescription() {
-        return description;
+        return description != null ? description : "";
     }
 
     public void setDescription(String description) {
@@ -115,5 +117,23 @@ public class Item {
 
     public void setPivot(List<Integer> pivot){
         this.pivot = pivot;
+    }
+
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("item_id", itemID);
+            json.put("item_name", name);
+            json.put("description", description);
+            json.put("width", width);
+            json.put("length", length);
+            json.put("height", height);
+            json.put("weight", weight);
+            json.put("is_fragile", isFragile ? 1 : 0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return json;
     }
 }

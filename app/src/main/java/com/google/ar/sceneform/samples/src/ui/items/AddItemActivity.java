@@ -56,13 +56,15 @@ public class AddItemActivity extends AppCompatActivity {
 
         item.setName(getStringValueFromID(R.id.itemName));
         item.setDescription(getStringValueFromID(R.id.itemDescription));
-        item.setWidth(getIntValueFromID(R.id.itemWidth));
-        item.setLength(getIntValueFromID(R.id.itemLength));
-        item.setHeight(getIntValueFromID(R.id.itemHeight));
-        item.setWeight(getIntValueFromID(R.id.itemWeight));
+        item.setWidth(getDoubleValueFromID(R.id.itemWidth));
+        item.setLength(getDoubleValueFromID(R.id.itemLength));
+        item.setHeight(getDoubleValueFromID(R.id.itemHeight));
+        item.setWeight(getDoubleValueFromID(R.id.itemWeight));
         item.setFragile(getBoolValueFromID(R.id.itemIsFragile));
 
         instance.setItem(item);
+        instance.getJob().getItemsUnpacked().add(item);
+        finish();
     }
 
     private void populateFields (Item item) {
@@ -88,9 +90,9 @@ public class AddItemActivity extends AppCompatActivity {
         return editTextField.getText().toString();
     }
 
-    private int getIntValueFromID(int id) {
+    private double getDoubleValueFromID(int id) {
         EditText editTextField = findViewById(id);
-        return Integer.parseInt(editTextField.getText().toString());
+        return Double.parseDouble(editTextField.getText().toString());
     }
 
     private boolean getBoolValueFromID(int id) {

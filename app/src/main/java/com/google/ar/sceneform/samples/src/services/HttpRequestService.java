@@ -22,7 +22,7 @@ public class HttpRequestService {
                 .build();
         try (Response response = client.newCall(request).execute()) {
             if (response.code() >=400) {
-                throw new IOException("Response code: "+response.code());
+                throw new IOException("Response code: "+response.code() + " Message: " + response.body().toString());
             }
             return response.body().string();
         }

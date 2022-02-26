@@ -13,7 +13,7 @@ public class JobsPresenterImpl implements JobsPresenter{
     public Job getJob(String jobId) {
         //use service to make get request
         try {
-            String url = Constants.jobsEndpoint + "/" +jobId;
+            String url = String.format(Constants.commitJobEndpoint, jobId);
             String response = service.get(url);
             Job jobResponse = gson.fromJson(response, Job.class);
 

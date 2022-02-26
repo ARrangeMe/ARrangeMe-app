@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void openRender(){
-        Container container = new Container(11,1.0,2.0,3.0);
+        Container container = new Container(11,1.0,2.0,3.0, 20);
         Job job = new Job(42,container);
         List<Item> itemsPacked = new ArrayList<>();
         Item item1 = new Item();
