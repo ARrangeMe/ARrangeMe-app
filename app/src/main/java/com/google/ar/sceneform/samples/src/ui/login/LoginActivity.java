@@ -41,33 +41,54 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void openRender(){
-        Container container = new Container(11,1.0,2.0,3.0);
+        Container container = new Container(11,4.0,4.0,4.0);
         Job job = new Job(42,container);
         List<Item> itemsPacked = new ArrayList<>();
-        Item item1 = new Item();
-        item1.setName("Test name 1");
-        item1.setItemID(1);
-        item1.setWidth(1);
-        item1.setLength(1);
-        item1.setHeight(1);
-        item1.setPivot(Arrays.asList(0,0,0));
-        itemsPacked.add(item1);
-        Item item2 = new Item();
-        item2.setName("Test name 2");
-        item2.setItemID(2);
-        item2.setWidth(2);
-        item2.setLength(1);
-        item2.setHeight(1);
-        item2.setPivot(Arrays.asList(1,1,1));
-        itemsPacked.add(item2);
+
         Item item3 = new Item();
         item3.setName("Test name 3");
         item3.setItemID(3);
-        item3.setWidth(2);
+
+        item3.setWidth(3);
+        item3.setHeight(3);
         item3.setLength(2);
-        item3.setHeight(0.5);
-        item3.setPivot(Arrays.asList(1,0,2));
+        item3.setPivot(Arrays.asList(0,0,0));
+
         itemsPacked.add(item3);
+
+        Item item4 = new Item();
+        item4.setName("Test name 3");
+        item4.setItemID(4);
+
+        item4.setWidth(1);
+        item4.setHeight(3);
+        item4.setLength(3);
+        item4.setPivot(Arrays.asList(3,0,0));
+
+        itemsPacked.add(item4);
+
+        Item item1 = new Item();
+        item1.setName("Test name 1");
+        item1.setItemID(1);
+
+        item1.setWidth(4);
+        item1.setHeight(1);
+        item1.setLength(1);
+        item1.setPivot(Arrays.asList(0,3,0));
+
+        itemsPacked.add(item1);
+
+        Item item2 = new Item();
+        item2.setName("Test name 2");
+        item2.setItemID(2);
+
+        item2.setWidth(1);
+        item2.setHeight(1);
+        item2.setLength(4);
+        item2.setPivot(Arrays.asList(3,1,0));
+
+        itemsPacked.add(item2);
+
         job.setItemsPacked(itemsPacked);
         SharedDataService.getInstance().setJob(job);
         Intent intent = new Intent(this, RenderActivity.class);
