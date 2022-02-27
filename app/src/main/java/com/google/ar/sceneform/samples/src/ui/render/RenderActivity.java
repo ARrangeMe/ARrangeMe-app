@@ -1,5 +1,6 @@
 package com.google.ar.sceneform.samples.src.ui.render;
 
+import android.graphics.Color;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Light;
 import com.threed.jpct.Logger;
 import com.threed.jpct.Object3D;
+import com.threed.jpct.Polyline;
 import com.threed.jpct.RGBColor;
 import com.threed.jpct.SimpleVector;
 import com.threed.jpct.Texture;
@@ -28,6 +30,7 @@ import com.threed.jpct.util.MemoryHelper;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -53,10 +56,9 @@ public class RenderActivity extends AppCompatActivity {
     private ListView listView;
     private RenderListAdapter adapter;
 
-
-
     private Light sun = null;
 
+    private SimpleVector origin =  new SimpleVector(0,0,0);
     private SimpleVector worldCenter =  new SimpleVector(0,0,0);
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,18 +158,23 @@ public class RenderActivity extends AppCompatActivity {
     }
 
     Object3D makeBox(SimpleVector pivotPoint, double width, double height, double length) {
+        //convert coordinate system
+        length *= -1; //z
+        height *=-1; //y
+        pivotPoint.z *=-1;
+        pivotPoint.y *=-1;
         Object3D box=new Object3D(12);
 
         // in JPCT, positive coordinate is x to right, y to down, z into screen
-        SimpleVector upperLeftBack = pivotPoint;
-        SimpleVector upperRightBack = new SimpleVector(pivotPoint.x + width, pivotPoint.y, pivotPoint.z);
-        SimpleVector lowerLeftBack = new SimpleVector( pivotPoint.x, pivotPoint.y + height, pivotPoint.z);
-        SimpleVector lowerRightBack = new SimpleVector(pivotPoint.x + width, pivotPoint.y + height, pivotPoint.z);
+        SimpleVector upperLeftFront = pivotPoint;
+        SimpleVector upperRightFront = new SimpleVector(pivotPoint.x + width, pivotPoint.y, pivotPoint.z);
+        SimpleVector lowerLeftFront = new SimpleVector(pivotPoint.x, pivotPoint.y + height, pivotPoint.z);
+        SimpleVector lowerRightFront = new SimpleVector(pivotPoint.x + width, pivotPoint.y + height, pivotPoint.z);
 
-        SimpleVector upperLeftFront=new SimpleVector(pivotPoint.x, pivotPoint.y, pivotPoint.z - length);
-        SimpleVector upperRightFront=new SimpleVector(pivotPoint.x + width, pivotPoint.y, pivotPoint.z - length);
-        SimpleVector lowerLeftFront=new SimpleVector(pivotPoint.x, pivotPoint.y + height, pivotPoint.z - length);
-        SimpleVector lowerRightFront=new SimpleVector(pivotPoint.x + width, pivotPoint.y + height, pivotPoint.z - length);
+        SimpleVector upperLeftBack = new SimpleVector(pivotPoint.x, pivotPoint.y, pivotPoint.z + length);
+        SimpleVector upperRightBack = new SimpleVector(pivotPoint.x + width, pivotPoint.y, pivotPoint.z + length);
+        SimpleVector lowerLeftBack = new SimpleVector(pivotPoint.x, pivotPoint.y + height, pivotPoint.z + length);
+        SimpleVector lowerRightBack = new SimpleVector(pivotPoint.x + width, pivotPoint.y + height, pivotPoint.z + length);
 
         // Front
         box.addTriangle(upperLeftFront,0,0, lowerLeftFront,0,1, upperRightFront,1,0);
@@ -194,14 +201,63 @@ public class RenderActivity extends AppCompatActivity {
         box.addTriangle(upperRightBack,1,0, lowerRightFront, 0,1, lowerRightBack,1,1);
 
         // set the box texture
-        box.setTexture("texture");
+        Random random = new Random();
+        box.setAdditionalColor(random.nextInt(255), random.nextInt(255), random.nextInt(255));
         box.build();
 
         return box;
     }
+    void makeBoundingBox(World world, SimpleVector pivotPoint, double width, double height, double length) {
+        length *= -1;
+        height *=-1;
+        pivotPoint.z *=-1;
+        pivotPoint.y *=-1;
+
+        // in JPCT, positive coordinate is x to right, y to down, z into screen
+        SimpleVector upperLeftFront = pivotPoint;
+        SimpleVector upperRightFront = new SimpleVector(pivotPoint.x + width, pivotPoint.y, pivotPoint.z);
+        SimpleVector lowerLeftFront = new SimpleVector(pivotPoint.x, pivotPoint.y + height, pivotPoint.z);
+        SimpleVector lowerRightFront = new SimpleVector(pivotPoint.x + width, pivotPoint.y + height, pivotPoint.z);
 
 
-    class MyRenderer implements GLSurfaceView.Renderer {
+        SimpleVector upperLeftBack = new SimpleVector(pivotPoint.x, pivotPoint.y, pivotPoint.z + length);
+        SimpleVector upperRightBack = new SimpleVector(pivotPoint.x + width, pivotPoint.y, pivotPoint.z + length);
+        SimpleVector lowerLeftBack = new SimpleVector(pivotPoint.x, pivotPoint.y + height, pivotPoint.z + length);
+        SimpleVector lowerRightBack = new SimpleVector(pivotPoint.x + width, pivotPoint.y + height, pivotPoint.z + length);
+
+        SimpleVector [] backPoints = {upperLeftBack, upperRightBack, lowerRightBack,lowerLeftBack,upperLeftBack};
+        SimpleVector [] frontPoints = {lowerLeftFront, upperLeftFront, upperRightFront, lowerRightFront, lowerLeftFront};
+        Polyline front = new Polyline(frontPoints,  RGBColor.RED);
+        front.setWidth(3);
+        world.addPolyline(front);
+        Polyline back = new Polyline(backPoints,  RGBColor.RED);
+        back.setWidth(3);
+        world.addPolyline(back);
+
+        SimpleVector [] side1Points = {upperLeftBack, upperLeftFront};
+        Polyline side1 = new Polyline(side1Points,  RGBColor.RED);
+        side1.setWidth(3);
+        world.addPolyline(side1);
+
+        SimpleVector [] side2Points = {upperRightBack, upperRightFront};
+        Polyline side2 = new Polyline(side2Points,  RGBColor.RED);
+        side2.setWidth(3);
+        world.addPolyline(side2);
+
+        SimpleVector [] side3Points = {lowerLeftFront, lowerLeftBack};
+        Polyline side3 = new Polyline(side3Points,  RGBColor.RED);
+        side3.setWidth(3);
+        world.addPolyline(side3);
+
+        SimpleVector [] side4Points = {lowerRightFront, lowerRightBack};
+        Polyline side4 = new Polyline(side4Points,  RGBColor.RED);
+        side4.setWidth(3);
+        world.addPolyline(side4);
+
+    }
+
+
+        class MyRenderer implements GLSurfaceView.Renderer {
 
         public MyRenderer() {
         }
@@ -221,10 +277,6 @@ public class RenderActivity extends AppCompatActivity {
                 sun = new Light(world);
                 sun.setIntensity(250, 250, 250);
 
-                // Create a texture out of the icon...:-)
-                Texture texture = new Texture(BitmapHelper.rescale(BitmapHelper.convert(getResources().getDrawable(R.drawable.ic_launcher)), 64, 64));
-                TextureManager.getInstance().addTexture("texture", texture);
-
                 // edit rendering logic here
                 List<Item> itemsToRender = job.getItemsPacked();
 
@@ -243,14 +295,17 @@ public class RenderActivity extends AppCompatActivity {
                     storedItems.add(cube);
                     count++;
                 }
-
+                //build container object
+                makeBoundingBox(world, origin, job.getContainer().getWidth(), job.getContainer().getHeight(),job.getContainer().getDepth());
+                Object3D container = makeBox(origin, job.getContainer().getWidth(), job.getContainer().getHeight(),job.getContainer().getDepth());
+                worldCenter = container.getTransformedCenter();
                 Camera cam = world.getCamera();
-                cam.moveCamera(Camera.CAMERA_MOVEOUT, 3);
-                cam.lookAt(worldCenter);
+                cam.setPosition(worldCenter); // move camera to center of scene
+                cam.moveCamera(Camera.CAMERA_MOVEOUT, 8);
 
                 // probably doesn't ever have to be changed
                 SimpleVector sv = new SimpleVector();
-                sv.set(worldCenter);
+                sv.set(origin);
                 sv.y -= 100;
                 sv.z -= 100;
                 sun.setPosition(sv);
@@ -276,7 +331,7 @@ public class RenderActivity extends AppCompatActivity {
             touchTurn = 0; //reset these values
             touchTurnUp = 0;
             cam.setPosition(worldCenter); // move camera to center of scene
-            cam.moveCamera(Camera.CAMERA_MOVEOUT, 3); //move the camera backwards relative to current direction
+            cam.moveCamera(Camera.CAMERA_MOVEOUT, 8); //move the camera backwards relative to current direction
 
             //these four steps do the actual drawing
             fb.clear(back); //clear previous frame
