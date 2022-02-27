@@ -10,11 +10,11 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="32dp"
         android:text="@string/addItemTitle"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.436"
+        app:layout_constraintHorizontal_bias="0.196"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,9 +22,10 @@
         android:id="@+id/itemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="90dp"
         android:ems="10"
         android:hint="@string/item_name"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.263"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,100 +35,90 @@
         android:id="@+id/itemDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="164dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="@string/item_description"
         android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.263"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:minHeight="48dp"
+        app:layout_constraintStart_toStartOf="@+id/itemName"
+        app:layout_constraintTop_toBottomOf="@+id/itemName" />
 
     <Button
         android:id="@+id/itemScanBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="252dp"
+        android:layout_marginTop="20dp"
         android:onClick="editDimensions"
         android:text="Scan Dimensions"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.197"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/itemDescription" />
 
     <EditText
         android:id="@+id/itemWeight"
         android:layout_width="140dp"
         android:layout_height="48dp"
-        android:layout_marginTop="548dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="Weight (kg)"
         android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.189"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/itemWidth"
+        app:layout_constraintTop_toBottomOf="@+id/itemWidth" />
 
     <CheckBox
         android:id="@+id/itemIsFragile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="616dp"
+        android:layout_marginTop="10dp"
+        android:minHeight="48dp"
         android:text="Fragile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.15"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/itemWeight"
+        app:layout_constraintTop_toBottomOf="@+id/itemWeight" />
 
     <EditText
         android:id="@+id/itemLength"
         android:layout_width="140dp"
         android:layout_height="48dp"
-        android:layout_marginTop="392dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="Length (cm)"
         android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.189"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/itemHeight"
+        app:layout_constraintStart_toStartOf="@+id/itemHeight"
+        app:layout_constraintTop_toBottomOf="@+id/itemHeight" />
 
     <EditText
         android:id="@+id/itemWidth"
         android:layout_width="140dp"
         android:layout_height="48dp"
-        android:layout_marginTop="448dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="Width (cm)"
         android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.189"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/itemLength"
+        app:layout_constraintStart_toStartOf="@+id/itemLength"
+        app:layout_constraintTop_toBottomOf="@+id/itemLength" />
 
     <EditText
         android:id="@+id/itemHeight"
         android:layout_width="140dp"
         android:layout_height="48dp"
-        android:layout_marginTop="336dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="Height (cm)"
         android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.189"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/itemScanBtn"
+        app:layout_constraintTop_toBottomOf="@+id/itemScanBtn" />
 
     <Button
         android:id="@+id/itemSaveBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="692dp"
+        android:layout_marginTop="20dp"
         android:onClick="submitButtonHandler"
         android:text="Save"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.157"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/itemIsFragile"
+        app:layout_constraintTop_toBottomOf="@+id/itemIsFragile" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
