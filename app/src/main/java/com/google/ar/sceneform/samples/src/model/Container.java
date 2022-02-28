@@ -2,8 +2,8 @@ package com.google.ar.sceneform.samples.src.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Container {
     @SerializedName(value = "container_id", alternate={"id"})
@@ -19,11 +19,12 @@ public class Container {
     private double maxWeight;
 
 
-    public Container(int containerId, double width, double height, double depth) {
+    public Container(int containerId, double width, double height, double depth, double maxWeight) {
         this.containerId = containerId;
         this.width = width;
         this.height = height;
         this.depth = depth;
+        this.maxWeight = maxWeight;
         this.usedSpace = 0;
         this.usedWeight = 0;
     }
@@ -72,5 +73,26 @@ public class Container {
         this.usedWeight = usedWeight;
     }
 
+    public double getMaxWeight() {
+        return maxWeight;
+    }
+
+    public void setMaxWeight(int maxWeight) {
+        this.maxWeight = maxWeight;
+    }
+
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("width", width);
+            json.put("height", height);
+            json.put("depth", depth);
+            json.put("max_weight", maxWeight);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return json;
+    }
 
 }

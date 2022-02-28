@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Job {
     @SerializedName(value="id", alternate={"job_id","jobId"})
-    private final int jobID;
+    private int jobID;
     @SerializedName(value="name", alternate={"job_name","jobName"})
     private String name;
     @SerializedName(value="items_packed")
@@ -18,6 +18,11 @@ public class Job {
     @SerializedName(value="items_not_packed")
     private List<Item> itemsUnpacked;
     private Container container;
+
+    public Job() {
+        this.itemsPacked = new ArrayList<>();
+        this.itemsUnpacked = new ArrayList<>();
+    }
 
     public Job(int projectID,  Container container) {
         this.jobID = projectID;

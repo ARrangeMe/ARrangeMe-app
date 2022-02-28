@@ -32,14 +32,15 @@ public class ItemsActivity extends AppCompatActivity {
     private ItemsPresenter itemsPresenter;
     private List<Item> items;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_items);
-        this.itemsPresenter = new ItemsPresenterImpl();
+
+    private void loadItems() {
         this.job = SharedDataService.getInstance().getJob();
         if (job != null) {
-            this.items = job.getItemsUnpacked(); //TODO:revisit this later
+            if (items != null) {
+                items.clear();
+            }
+            this.items = new ArrayList<>(job.getItemsPacked()); //TODO:revisit this later
+            items.addAll(job.getItemsUnpacked());
         }
         ListView listView = (ListView) findViewById(R.id.itemsListView);
 
@@ -62,6 +63,20 @@ public class ItemsActivity extends AppCompatActivity {
                 editManually();
             }
         });
+
+    }
+
+    @Override
+    protected void onResume() {
+        loadItems();
+        super.onResume();
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_items);
+        this.itemsPresenter = new ItemsPresenterImpl();
+        loadItems();
     }
 
     public void showMenu(View view) {
