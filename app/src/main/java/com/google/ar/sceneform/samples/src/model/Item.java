@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 public class Item {
-    @SerializedName(value="item_id")
+    @SerializedName(value = "item_id", alternate={"id"})
     private int itemID;
     @SerializedName(value="qr_img")
     private String qrCode;
