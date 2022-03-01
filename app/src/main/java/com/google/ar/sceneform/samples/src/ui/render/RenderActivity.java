@@ -37,7 +37,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 public class RenderActivity extends AppCompatActivity {
     // Used to handle pause and resume...
-    private static RenderActivity master = null; //used for pause/resume handling
+//    private static RenderActivity master = null; //used for pause/resume handling
 
     private Job job;
     private GLSurfaceView mGLView;
@@ -65,9 +65,9 @@ public class RenderActivity extends AppCompatActivity {
 
         Logger.log("onCreate");
 
-        if (master != null) {
-            copy(master);
-        }
+//        if (master != null) {
+//            copy(master);
+//        }
 
         SharedDataService instance = SharedDataService.getInstance();
         if (instance.getJob() != null) {
@@ -268,7 +268,7 @@ public class RenderActivity extends AppCompatActivity {
             }
             fb = new FrameBuffer(gl, w, h);
 
-            if (master == null) { //set up the world if we haven't already
+//            if (master == null) { //set up the world if we haven't already
 
                 world = new World();
                 world.setAmbientLight(20, 20, 20);
@@ -311,11 +311,11 @@ public class RenderActivity extends AppCompatActivity {
                 sun.setPosition(sv);
                 MemoryHelper.compact();
 
-                if (master == null) {
-                    Logger.log("Saving master Activity!");
-                    master = RenderActivity.this;
-                }
-            }
+//                if (master == null) {
+//                    Logger.log("Saving master Activity!");
+//                    master = RenderActivity.this;
+//                }
+//            }
         }
 
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
