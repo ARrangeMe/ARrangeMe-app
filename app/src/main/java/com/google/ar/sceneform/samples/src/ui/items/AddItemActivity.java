@@ -62,8 +62,6 @@ public class AddItemActivity extends AppCompatActivity {
         item.setWeight(getDoubleValueFromID(R.id.itemWeight));
         item.setFragile(getBoolValueFromID(R.id.itemIsFragile));
 
-        instance.setItem(item);
-        instance.getJob().getItemsUnpacked().add(item);
         finish();
     }
 
