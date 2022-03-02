@@ -14,6 +14,8 @@ import com.google.ar.sceneform.samples.src.model.Job;
 import com.google.ar.sceneform.samples.src.services.SharedDataService;
 import com.google.ar.sceneform.samples.src.ui.measurement.SceneformActivity;
 
+import java.util.List;
+
 public class AddItemActivity extends AppCompatActivity {
 
     @Override
@@ -50,7 +52,11 @@ public class AddItemActivity extends AppCompatActivity {
     public void submitButtonHandler(View view) throws Exception {
         SharedDataService instance = SharedDataService.getInstance();
         Item item = instance.getItem();
-        if (item.getItemID() == 0) {
+        if (item ==null)
+        {
+            item = new Item();
+            instance.setItem(item);
+        }else if (item.getItemID() == 0) {
             throw new Exception("Item missing item id");
         }
 
@@ -62,8 +68,24 @@ public class AddItemActivity extends AppCompatActivity {
         item.setWeight(getDoubleValueFromID(R.id.itemWeight));
         item.setFragile(getBoolValueFromID(R.id.itemIsFragile));
 
-        instance.setItem(item);
+        List<Item> items = instance.getJob().getItemsUnpacked();
+        Item old = null;
+        for (Item i: items) {
+            if (item.getItemID() == i.getItemID()) {
+                old = i;
+                break;
+            }
+        }
+        items = instance.getJob().getItemsPacked();
+        for (Item i: items) {
+            if (item.getItemID() == i.getItemID()) {
+                old = i;
+                break;
+            }
+        }
+        items.remove(old);
         instance.getJob().getItemsUnpacked().add(item);
+
         finish();
     }
 

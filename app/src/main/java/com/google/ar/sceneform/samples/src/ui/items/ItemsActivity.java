@@ -20,6 +20,7 @@ import com.google.ar.sceneform.samples.src.services.SharedDataService;
 import com.google.ar.sceneform.samples.src.ui.items.ItemsPresenter;
 import com.google.ar.sceneform.samples.src.ui.items.ItemsPresenterImpl;
 import com.google.ar.sceneform.samples.src.ui.qrCode.QRCodeActivity;
+import com.google.ar.sceneform.samples.src.ui.render.RenderActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -135,5 +136,8 @@ public class ItemsActivity extends AppCompatActivity {
 
     private void showPackingStrategy(Job strategy) {
         //TODO:open new activity and send the strategy
+        SharedDataService.getInstance().setJob(strategy);
+        Intent intent = new Intent(this, RenderActivity.class);
+        startActivity(intent);
     }
 }
