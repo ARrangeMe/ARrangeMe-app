@@ -62,7 +62,7 @@
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="Weight (kg)"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         app:layout_constraintStart_toStartOf="@+id/itemWidth"
         app:layout_constraintTop_toBottomOf="@+id/itemWidth" />
 
@@ -83,7 +83,7 @@
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="Length (cm)"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="@+id/itemHeight"
         app:layout_constraintStart_toStartOf="@+id/itemHeight"
         app:layout_constraintTop_toBottomOf="@+id/itemHeight" />
@@ -95,7 +95,7 @@
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="Width (cm)"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="@+id/itemLength"
         app:layout_constraintStart_toStartOf="@+id/itemLength"
         app:layout_constraintTop_toBottomOf="@+id/itemLength" />
@@ -107,7 +107,7 @@
         android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="Height (cm)"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         app:layout_constraintStart_toStartOf="@+id/itemScanBtn"
         app:layout_constraintTop_toBottomOf="@+id/itemScanBtn" />
 
