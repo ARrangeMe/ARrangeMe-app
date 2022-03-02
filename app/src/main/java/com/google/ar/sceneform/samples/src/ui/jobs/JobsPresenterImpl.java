@@ -1,9 +1,12 @@
 package com.google.ar.sceneform.samples.src.ui.jobs;
 
+import com.google.ar.sceneform.samples.src.model.Container;
 import com.google.ar.sceneform.samples.src.model.Job;
 import com.google.ar.sceneform.samples.src.services.Constants;
 import com.google.ar.sceneform.samples.src.services.HttpRequestService;
 import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 public class JobsPresenterImpl implements JobsPresenter{
     HttpRequestService service = new HttpRequestService();
@@ -26,12 +29,15 @@ public class JobsPresenterImpl implements JobsPresenter{
     }
 
     @Override
-    public Job createJob(String userId, String jobName) {
-        String body = "{\"user_id\": "+userId+",\"job_name\": \""+jobName+"\"}";
-
+    public Job createJob(String userId, String jobName, Container container) {
         //use service to make get request
         try {
-            String response = service.post(Constants.jobsEndpoint, body);
+            JSONObject json = new JSONObject();
+            json.put("user_id", userId);
+            json.put("job_name", jobName);
+            json.put("container", container.toJson());
+
+            String response = service.post(Constants.jobsEndpoint, json.toString());
             return gson.fromJson(response, Job.class);
         } catch (Exception e) {
             e.printStackTrace();

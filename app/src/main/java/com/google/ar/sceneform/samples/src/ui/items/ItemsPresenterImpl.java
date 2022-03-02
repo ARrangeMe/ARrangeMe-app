@@ -26,10 +26,6 @@ public class ItemsPresenterImpl implements ItemsPresenter {
             JSONObject json = new JSONObject();
             json.put("user_id", instance.getUser().getUserID());
             json.put("items", itemsJson);
-            if (instance.getJob().getContainer() == null) { //TODO: Remove this once add container is done
-                instance.getJob().setContainer(new Container(3, 25, 20, 30, 20));
-            }
-            json.put("container", instance.getJob().getContainer().toJson());
 
             service.post(commitUrl, json.toString());
         } catch (IOException | JSONException e) {
