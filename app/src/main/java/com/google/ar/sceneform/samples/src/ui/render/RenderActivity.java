@@ -228,33 +228,42 @@ public class RenderActivity extends AppCompatActivity {
 
         SimpleVector [] backPoints = {upperLeftBack, upperRightBack, lowerRightBack,lowerLeftBack,upperLeftBack};
         SimpleVector [] frontPoints = {lowerLeftFront, upperLeftFront, upperRightFront, lowerRightFront, lowerLeftFront};
-        Polyline front = new Polyline(frontPoints,  RGBColor.RED);
+        RGBColor color = new RGBColor(66, 234, 221);
+        Polyline front = new Polyline(frontPoints,  color);
         front.setWidth(3);
         world.addPolyline(front);
-        Polyline back = new Polyline(backPoints,  RGBColor.RED);
+        Polyline back = new Polyline(backPoints,  color);
         back.setWidth(3);
         world.addPolyline(back);
 
         SimpleVector [] side1Points = {upperLeftBack, upperLeftFront};
-        Polyline side1 = new Polyline(side1Points,  RGBColor.RED);
+        Polyline side1 = new Polyline(side1Points,  color);
         side1.setWidth(3);
         world.addPolyline(side1);
 
         SimpleVector [] side2Points = {upperRightBack, upperRightFront};
-        Polyline side2 = new Polyline(side2Points,  RGBColor.RED);
+        Polyline side2 = new Polyline(side2Points,  color);
         side2.setWidth(3);
         world.addPolyline(side2);
 
         SimpleVector [] side3Points = {lowerLeftFront, lowerLeftBack};
-        Polyline side3 = new Polyline(side3Points,  RGBColor.RED);
+        Polyline side3 = new Polyline(side3Points,  color);
         side3.setWidth(3);
         world.addPolyline(side3);
 
         SimpleVector [] side4Points = {lowerRightFront, lowerRightBack};
-        Polyline side4 = new Polyline(side4Points,  RGBColor.RED);
+        Polyline side4 = new Polyline(side4Points, color );
         side4.setWidth(3);
         world.addPolyline(side4);
 
+        // build opaque floor
+        RGBColor floorColor = new RGBColor(0, 255, 0);
+        Object3D floor = new Object3D(2);
+        floor.addTriangle(upperRightBack,0,0, upperLeftFront,0,1,  upperLeftBack,1,0);
+        floor.addTriangle(upperRightFront,1,0, upperLeftFront,0,1, upperRightBack,1,1);
+        floor.setAdditionalColor(floorColor);
+        floor.build();
+        world.addObject(floor);
     }
 
 
