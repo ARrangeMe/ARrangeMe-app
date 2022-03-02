@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.widget.ListView;
 
 import com.google.ar.sceneform.samples.src.R;
+import com.google.ar.sceneform.samples.src.model.Container;
 import com.google.ar.sceneform.samples.src.model.Item;
 import com.google.ar.sceneform.samples.src.model.Job;
 import com.google.ar.sceneform.samples.src.services.SharedDataService;
@@ -29,6 +30,8 @@ import com.threed.jpct.util.MemoryHelper;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -61,13 +64,11 @@ public class RenderActivity extends AppCompatActivity {
     private SimpleVector origin =  new SimpleVector(0,0,0);
     private SimpleVector worldCenter =  new SimpleVector(0,0,0);
 
+    private float cameraZoom = 0;
+
     protected void onCreate(Bundle savedInstanceState) {
 
         Logger.log("onCreate");
-
-//        if (master != null) {
-//            copy(master);
-//        }
 
         SharedDataService instance = SharedDataService.getInstance();
         if (instance.getJob() != null) {
@@ -268,8 +269,6 @@ public class RenderActivity extends AppCompatActivity {
             }
             fb = new FrameBuffer(gl, w, h);
 
-//            if (master == null) { //set up the world if we haven't already
-
                 world = new World();
                 world.setAmbientLight(20, 20, 20);
 
@@ -296,12 +295,18 @@ public class RenderActivity extends AppCompatActivity {
                     count++;
                 }
                 //build container object
-                makeBoundingBox(world, origin, job.getContainer().getWidth(), job.getContainer().getHeight(),job.getContainer().getDepth());
-                Object3D container = makeBox(origin, job.getContainer().getWidth(), job.getContainer().getHeight(),job.getContainer().getDepth());
-                worldCenter = container.getTransformedCenter();
+                Container container =  job.getContainer();
+                makeBoundingBox(world, origin, container.getWidth(), container.getHeight(),container.getDepth());
+                Object3D containerObject3d = makeBox(origin, job.getContainer().getWidth(), job.getContainer().getHeight(),job.getContainer().getDepth());
+                worldCenter = containerObject3d.getTransformedCenter();
+
+                //zoom out a little bit father than the containers longest dimension
+                cameraZoom = Collections.max(Arrays.asList(container.getWidth(), container.getHeight(),container.getDepth())).floatValue();
+                cameraZoom *= 1.5;
+
                 Camera cam = world.getCamera();
                 cam.setPosition(worldCenter); // move camera to center of scene
-                cam.moveCamera(Camera.CAMERA_MOVEOUT, 8);
+                cam.moveCamera(Camera.CAMERA_MOVEOUT, cameraZoom);
 
                 // probably doesn't ever have to be changed
                 SimpleVector sv = new SimpleVector();
@@ -311,11 +316,6 @@ public class RenderActivity extends AppCompatActivity {
                 sun.setPosition(sv);
                 MemoryHelper.compact();
 
-//                if (master == null) {
-//                    Logger.log("Saving master Activity!");
-//                    master = RenderActivity.this;
-//                }
-//            }
         }
 
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -331,7 +331,7 @@ public class RenderActivity extends AppCompatActivity {
             touchTurn = 0; //reset these values
             touchTurnUp = 0;
             cam.setPosition(worldCenter); // move camera to center of scene
-            cam.moveCamera(Camera.CAMERA_MOVEOUT, 8); //move the camera backwards relative to current direction
+            cam.moveCamera(Camera.CAMERA_MOVEOUT, cameraZoom); //move the camera backwards relative to current direction
 
             //these four steps do the actual drawing
             fb.clear(back); //clear previous frame
