@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.widget.ListView;
 
 import com.google.ar.sceneform.samples.src.R;
+import com.google.ar.sceneform.samples.src.model.Container;
 import com.google.ar.sceneform.samples.src.model.Item;
 import com.google.ar.sceneform.samples.src.model.Job;
 import com.google.ar.sceneform.samples.src.services.SharedDataService;
@@ -29,6 +30,8 @@ import com.threed.jpct.util.MemoryHelper;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -61,13 +64,11 @@ public class RenderActivity extends AppCompatActivity {
     private SimpleVector origin =  new SimpleVector(0,0,0);
     private SimpleVector worldCenter =  new SimpleVector(0,0,0);
 
+    private float cameraZoom = 0;
+
     protected void onCreate(Bundle savedInstanceState) {
 
         Logger.log("onCreate");
-
-//        if (master != null) {
-//            copy(master);
-//        }
 
         SharedDataService instance = SharedDataService.getInstance();
         if (instance.getJob() != null) {
@@ -227,33 +228,42 @@ public class RenderActivity extends AppCompatActivity {
 
         SimpleVector [] backPoints = {upperLeftBack, upperRightBack, lowerRightBack,lowerLeftBack,upperLeftBack};
         SimpleVector [] frontPoints = {lowerLeftFront, upperLeftFront, upperRightFront, lowerRightFront, lowerLeftFront};
-        Polyline front = new Polyline(frontPoints,  RGBColor.RED);
+        RGBColor color = new RGBColor(66, 234, 221);
+        Polyline front = new Polyline(frontPoints,  color);
         front.setWidth(3);
         world.addPolyline(front);
-        Polyline back = new Polyline(backPoints,  RGBColor.RED);
+        Polyline back = new Polyline(backPoints,  color);
         back.setWidth(3);
         world.addPolyline(back);
 
         SimpleVector [] side1Points = {upperLeftBack, upperLeftFront};
-        Polyline side1 = new Polyline(side1Points,  RGBColor.RED);
+        Polyline side1 = new Polyline(side1Points,  color);
         side1.setWidth(3);
         world.addPolyline(side1);
 
         SimpleVector [] side2Points = {upperRightBack, upperRightFront};
-        Polyline side2 = new Polyline(side2Points,  RGBColor.RED);
+        Polyline side2 = new Polyline(side2Points,  color);
         side2.setWidth(3);
         world.addPolyline(side2);
 
         SimpleVector [] side3Points = {lowerLeftFront, lowerLeftBack};
-        Polyline side3 = new Polyline(side3Points,  RGBColor.RED);
+        Polyline side3 = new Polyline(side3Points,  color);
         side3.setWidth(3);
         world.addPolyline(side3);
 
         SimpleVector [] side4Points = {lowerRightFront, lowerRightBack};
-        Polyline side4 = new Polyline(side4Points,  RGBColor.RED);
+        Polyline side4 = new Polyline(side4Points, color );
         side4.setWidth(3);
         world.addPolyline(side4);
 
+        // build opaque floor
+        RGBColor floorColor = new RGBColor(0, 255, 0);
+        Object3D floor = new Object3D(2);
+        floor.addTriangle(upperRightBack,0,0, upperLeftFront,0,1,  upperLeftBack,1,0);
+        floor.addTriangle(upperRightFront,1,0, upperLeftFront,0,1, upperRightBack,1,1);
+        floor.setAdditionalColor(floorColor);
+        floor.build();
+        world.addObject(floor);
     }
 
 
@@ -267,8 +277,6 @@ public class RenderActivity extends AppCompatActivity {
                 fb.dispose();
             }
             fb = new FrameBuffer(gl, w, h);
-
-//            if (master == null) { //set up the world if we haven't already
 
                 world = new World();
                 world.setAmbientLight(20, 20, 20);
@@ -296,12 +304,18 @@ public class RenderActivity extends AppCompatActivity {
                     count++;
                 }
                 //build container object
-                makeBoundingBox(world, origin, job.getContainer().getWidth(), job.getContainer().getHeight(),job.getContainer().getDepth());
-                Object3D container = makeBox(origin, job.getContainer().getWidth(), job.getContainer().getHeight(),job.getContainer().getDepth());
-                worldCenter = container.getTransformedCenter();
+                Container container =  job.getContainer();
+                makeBoundingBox(world, origin, container.getWidth(), container.getHeight(),container.getDepth());
+                Object3D containerObject3d = makeBox(origin, job.getContainer().getWidth(), job.getContainer().getHeight(),job.getContainer().getDepth());
+                worldCenter = containerObject3d.getTransformedCenter();
+
+                //zoom out a little bit father than the containers longest dimension
+                cameraZoom = Collections.max(Arrays.asList(container.getWidth(), container.getHeight(),container.getDepth())).floatValue();
+                cameraZoom *= 1.5;
+
                 Camera cam = world.getCamera();
                 cam.setPosition(worldCenter); // move camera to center of scene
-                cam.moveCamera(Camera.CAMERA_MOVEOUT, 8);
+                cam.moveCamera(Camera.CAMERA_MOVEOUT, cameraZoom);
 
                 // probably doesn't ever have to be changed
                 SimpleVector sv = new SimpleVector();
@@ -311,11 +325,6 @@ public class RenderActivity extends AppCompatActivity {
                 sun.setPosition(sv);
                 MemoryHelper.compact();
 
-//                if (master == null) {
-//                    Logger.log("Saving master Activity!");
-//                    master = RenderActivity.this;
-//                }
-//            }
         }
 
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -331,7 +340,7 @@ public class RenderActivity extends AppCompatActivity {
             touchTurn = 0; //reset these values
             touchTurnUp = 0;
             cam.setPosition(worldCenter); // move camera to center of scene
-            cam.moveCamera(Camera.CAMERA_MOVEOUT, 8); //move the camera backwards relative to current direction
+            cam.moveCamera(Camera.CAMERA_MOVEOUT, cameraZoom); //move the camera backwards relative to current direction
 
             //these four steps do the actual drawing
             fb.clear(back); //clear previous frame
