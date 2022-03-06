@@ -96,9 +96,6 @@ public class SceneformActivity extends AppCompatActivity implements SceneformVie
 
         side = Measurement.WIDTH;
         item = new Item(); //dummy, this should get passed in
-        item.setHeight(1.0);
-        item.setWidth(2.0);
-        item.setLength(3.0);
         formatter = new DecimalFormat();
         formatter.setMaximumFractionDigits(3);
 
@@ -135,9 +132,9 @@ public class SceneformActivity extends AppCompatActivity implements SceneformVie
                 markerNode.setRenderable(marker);
                 markerNode.select();
 
-                double distance = sceneformPresenter.getDistance();
+                double distance = sceneformPresenter.getDistance()*100;
                 if (distance > 0) {
-                    String distanceText = formatter.format(distance*100);
+                    String distanceText = formatter.format(distance);
 
                     TextView textView = null;
                     if (side.equals(Measurement.HEIGHT)) {
