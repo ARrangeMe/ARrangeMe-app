@@ -22,6 +22,9 @@ public class ItemsPresenterImpl implements ItemsPresenter {
             SharedDataService instance = SharedDataService.getInstance();
             String commitUrl = String.format(Constants.commitJobEndpoint, instance.getJob().getJobID());
             JSONArray itemsJson = new JSONArray();
+            if (instance.getJob().getItemsUnpacked().isEmpty()) {
+                return;
+            }
             instance.getJob().getItemsUnpacked().forEach(item -> itemsJson.put(item.toJson()));
             JSONObject json = new JSONObject();
             json.put("user_id", instance.getUser().getUserID());

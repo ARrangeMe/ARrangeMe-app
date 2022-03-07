@@ -100,9 +100,9 @@ public class AddItemActivity extends AppCompatActivity {
 
         name.setText(item.getName());
         description.setText(item.getDescription());
-        width.setText(String.valueOf(item.getWidth()));
-        length.setText(String.valueOf(item.getLength()));
-        height.setText(String.valueOf(item.getHeight()));
+        width.setText(String.format("%.2f", item.getWidth()));
+        length.setText(String.format("%.2f", item.getLength()));
+        height.setText(String.format("%.2f", item.getHeight()));
         weight.setText(String.valueOf(item.getWeight()));
         isFragile.setChecked(item.isFragile());
     }
