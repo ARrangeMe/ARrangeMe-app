@@ -1,11 +1,13 @@
 package com.google.ar.sceneform.samples.src.ui.register.RenderListUtils;
 
 import com.threed.jpct.Object3D;
+import com.threed.jpct.RGBColor;
 
 public class RenderListItem {
     String text1;
     String text2;
     Object3D object; //handle to the object
+    RGBColor color;
 
     public RenderListItem(String text1, String text2){
         this.text1 = text1;
@@ -33,5 +35,13 @@ public class RenderListItem {
     }
 
     public Object3D getObject() {return object;}
+
+    public RGBColor getColor() {
+        return color;
+    }
+
+    public void setColor(RGBColor color) {
+        this.color = color;
+    }
 }
 
