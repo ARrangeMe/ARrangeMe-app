@@ -86,9 +86,11 @@ public class RenderActivity extends AppCompatActivity {
 
         listItems = new ArrayList<>();// add items to list as a hashmap
 
-
+        Random random = new Random();
         for (Item item : job.getItemsPacked()) {
+            RGBColor color = new RGBColor(random.nextInt(255), random.nextInt(255), random.nextInt(255));
             RenderListItem listItem = new RenderListItem(item.getName(),String.valueOf(item.getItemID()));
+            listItem.setColor(color);
             listItems.add(listItem);
         }
 
@@ -158,7 +160,7 @@ public class RenderActivity extends AppCompatActivity {
         return super.onTouchEvent(me);
     }
 
-    Object3D makeBox(SimpleVector pivotPoint, double width, double height, double length) {
+    Object3D makeBox(SimpleVector pivotPoint, double width, double height, double length, RGBColor color) {
         //convert coordinate system
         length *= -1; //z
         height *=-1; //y
@@ -202,8 +204,7 @@ public class RenderActivity extends AppCompatActivity {
         box.addTriangle(upperRightBack,1,0, lowerRightFront, 0,1, lowerRightBack,1,1);
 
         // set the box texture
-        Random random = new Random();
-        box.setAdditionalColor(random.nextInt(255), random.nextInt(255), random.nextInt(255));
+        box.setAdditionalColor(color);
         box.build();
 
         return box;
@@ -291,7 +292,7 @@ public class RenderActivity extends AppCompatActivity {
                 int count = 0;
                 for(Item item : itemsToRender){
                     // where do i get the vector for the reference point?
-                    Object3D cube = makeBox(item.getPivot(), item.getWidth(), item.getHeight(), item.getLength());
+                    Object3D cube = makeBox(item.getPivot(), item.getWidth(), item.getHeight(), item.getLength(), listItems.get(count).getColor());
                     world.addObject(cube);
 
                     // cache the handle to the object so we can change its attributes dynamically later
@@ -306,7 +307,7 @@ public class RenderActivity extends AppCompatActivity {
                 //build container object
                 Container container =  job.getContainer();
                 makeBoundingBox(world, origin, container.getWidth(), container.getHeight(),container.getDepth());
-                Object3D containerObject3d = makeBox(origin, job.getContainer().getWidth(), job.getContainer().getHeight(),job.getContainer().getDepth());
+                Object3D containerObject3d = makeBox(origin, job.getContainer().getWidth(), job.getContainer().getHeight(),job.getContainer().getDepth(), new RGBColor(0,0, 0));
                 worldCenter = containerObject3d.getTransformedCenter();
 
                 //zoom out a little bit father than the containers longest dimension

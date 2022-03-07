@@ -1,6 +1,7 @@
 package com.google.ar.sceneform.samples.src.ui.register.RenderListUtils;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.google.ar.sceneform.samples.src.R;
 import com.threed.jpct.Object3D;
+import com.threed.jpct.RGBColor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,12 +53,19 @@ public class RenderListAdapter extends BaseAdapter implements ListAdapter {
         }
 
         //Handle TextView and display string from your list
-        String jobName = list.get(position).getText1();
+        String itemName = list.get(position).getText1();
         String itemId = list.get(position).getText2();
+        RGBColor color = list.get(position).color;
+
+//        view.setBackgroundColor(color.getRGB());
+
         TextView listItemText1 = (TextView)view.findViewById(R.id.text1);
-        listItemText1.setText(jobName);
+        listItemText1.setText(itemName);
+        listItemText1.setTextColor(Color.rgb(color.getRed(),color.getGreen(),color.getBlue()));
+
         TextView listItemText2 = (TextView)view.findViewById(R.id.text2);
         listItemText2.setText(itemId);
+        listItemText2.setTextColor(Color.rgb(color.getRed(),color.getGreen(),color.getBlue()));
 
 
         //Handle buttons and add onClickListeners
