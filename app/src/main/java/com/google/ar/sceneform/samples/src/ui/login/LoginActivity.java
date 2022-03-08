@@ -102,12 +102,14 @@ public class LoginActivity extends AppCompatActivity {
     public void onClick(View view) {
         EditText editText = (EditText) findViewById(R.id.editTextLogin);
         String username = editText.getText().toString();
+        EditText editTextPassword = (EditText) findViewById(R.id.editTextLogin2);
+        String password = editTextPassword.getText().toString();
 
         new AsyncTask<String, String, JobsList>() {
             // potential for memory leak if this task lives longer than the main thread. Unlikely.
             @Override
-            protected JobsList doInBackground(String... username) {
-                return loginPresenter.getUserByUsername(username[0]);
+            protected JobsList doInBackground(String... params) {
+                return loginPresenter.getUserByUsername(params[0], params[1]);
             }
             @Override
             protected void onPostExecute(JobsList result) {
@@ -122,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                 SharedDataService.getInstance().setJobsList(result);
                 openJobs();
             }
-        }.execute(username);
+        }.execute(username,password);
     }
 
     public void onCreateNewAccountClicked(View view) {

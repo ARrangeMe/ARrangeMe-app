@@ -14,8 +14,8 @@ import com.google.gson.Gson;
 public class LoginPresenterImpl implements LoginPresenter {
     HttpRequestService service = new HttpRequestService();
     Gson gson = new Gson();
-    public JobsList getUserByUsername(String username) {
-        String body = "{\"username\": \""+username+"\",\"password\": \"password\"}";
+    public JobsList getUserByUsername(String username, String password) {
+        String body = "{\"username\": \""+username+"\",\"password\": \""+password+"\"}";
 
         //use service to make get request
         try {
