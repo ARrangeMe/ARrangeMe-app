@@ -17,6 +17,7 @@
     <string name="app_name">ARrangeMe</string>
     <string name="test_message">default_messge</string>
     <string name="login_username">Username:</string>
+    <string name="login_password">Password:</string>
     <string name="register_username">New Username:</string>
     <string name="addItemTitle">Item Details</string>
     <string name="item_name">Name</string>

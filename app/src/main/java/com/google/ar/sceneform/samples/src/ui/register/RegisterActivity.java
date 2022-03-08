@@ -29,12 +29,15 @@ public class RegisterActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.editTextRegister);
         String username = editText.getText().toString();
 
+        EditText editTextPassword = (EditText) findViewById(R.id.editTextRegister2);
+        String password = editTextPassword.getText().toString();
+
         new AsyncTask<String, String, Boolean>() {
             // potential for memory leak if this task lives longer than the main thread. Unlikely.
             @Override
-            protected Boolean doInBackground(String... username) {
+            protected Boolean doInBackground(String... params) {
                 //TODO: make input fields in UI for these
-                registerPresenter.registerUser(username[0],"firstName","lastName","email","password");
+                registerPresenter.registerUser(params[0],"firstName","lastName","email",params[1]);
                 return true;
             }
             @Override
@@ -42,6 +45,6 @@ public class RegisterActivity extends AppCompatActivity {
                 //TODO: Check result or something and give user a notification success/failure
                 openLogin();
             }
-        }.execute(username);
+        }.execute(username,password);
     }
 }

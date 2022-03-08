@@ -18,6 +18,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/editTextRegister2"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="@string/login_password"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/editTextRegister"
+        app:layout_constraintTop_toBottomOf="@+id/editTextRegister" />
+
     <Button
         android:id="@+id/registerButton"
         android:layout_width="wrap_content"
@@ -26,5 +37,5 @@
         android:onClick="onClick"
         android:text="Register"
         app:layout_constraintStart_toStartOf="@+id/editTextRegister"
-        app:layout_constraintTop_toBottomOf="@+id/editTextRegister" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextRegister2" />
 </androidx.constraintlayout.widget.ConstraintLayout>
