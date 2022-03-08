@@ -1,6 +1,8 @@
 package com.google.ar.sceneform.samples.src.ui.jobs.ListUtils;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
@@ -97,9 +99,22 @@ public class CustomListAdapter extends BaseAdapter implements ListAdapter {
         deleteButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                deleteJob(list.get(position).text2);
-                list.remove(position); //or some other task
-                notifyDataSetChanged();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Are you sure you want to delete this job?")
+                        .setPositiveButton("delete", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                deleteJob(list.get(position).text2);
+                                list.remove(position); //or some other task
+                                notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        })
+                        .setTitle("Delete Job");
+                builder.create().show();
             }
         });
         return view;
