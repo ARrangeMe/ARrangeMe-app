@@ -50,11 +50,17 @@ public class ItemsActivity extends AppCompatActivity {
                 new String[]{"First Line", "Second Line"},
                 new int[]{R.id.name, R.id.desc}); //maps data here to UI element
 
+        HashMap<Integer, Boolean> unique = new HashMap<>();
+
         for (Item item : items) {
+            if (unique.get(item.getItemID()) != null) {
+                continue;
+            }
             HashMap<String, String> listItem = new HashMap<>();
             listItem.put("First Line", item.getName());
-            listItem.put("Second Line", item.getDescription());
+            listItem.put("Second Line", String.valueOf(item.getItemID()));
             listItems.add(listItem);
+            unique.put(item.getItemID(), true);
         }
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -111,6 +117,12 @@ public class ItemsActivity extends AppCompatActivity {
         Intent intent = new Intent(this, QRCodeActivity.class);
         startActivity(intent);
     }
+//
+//    @Override
+//    public void onDestroy() {
+//        itemsPresenter.getPackingStrategy();
+//        super.onDestroy();
+//    }
 
     public void generateStrategy(View view) throws IOException {
         new AsyncTask<String, String, Job>() {

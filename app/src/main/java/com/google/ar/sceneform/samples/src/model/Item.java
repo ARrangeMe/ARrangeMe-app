@@ -19,7 +19,8 @@ public class Item {
     private double length;
     private double height;
     private double weight;
-    private boolean isFragile;
+    @SerializedName(value="is_fragile")
+    private int isFragile;
     @SerializedName(value="item_name")
     private String name;
     private String description;
@@ -88,11 +89,11 @@ public class Item {
     }
 
     public boolean isFragile() {
-        return isFragile;
+        return isFragile == 1;
     }
 
     public void setFragile(boolean fragile) {
-        isFragile = fragile;
+        isFragile = fragile ? 1 : 0;
     }
 
     public String getName() {
@@ -129,7 +130,7 @@ public class Item {
             json.put("length", length);
             json.put("height", height);
             json.put("weight", weight);
-            json.put("is_fragile", isFragile ? 1 : 0);
+            json.put("is_fragile", isFragile);
         } catch (JSONException e) {
             e.printStackTrace();
         }
