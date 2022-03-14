@@ -7,8 +7,12 @@ import android.view.View;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import com.google.ar.sceneform.samples.src.R;
+import com.google.ar.sceneform.samples.src.model.RegisterResponse;
+import com.google.ar.sceneform.samples.src.ui.dialogs.LoginFailedDialogFragment;
+import com.google.ar.sceneform.samples.src.ui.dialogs.RegisterFailedDialogFragment;
 import com.google.ar.sceneform.samples.src.ui.jobs.JobsActivity;
 import com.google.ar.sceneform.samples.src.ui.login.LoginActivity;
 
@@ -32,17 +36,22 @@ public class RegisterActivity extends AppCompatActivity {
         EditText editTextPassword = (EditText) findViewById(R.id.editTextRegister2);
         String password = editTextPassword.getText().toString();
 
-        new AsyncTask<String, String, Boolean>() {
+        new AsyncTask<String, String, RegisterResponse>() {
             // potential for memory leak if this task lives longer than the main thread. Unlikely.
             @Override
-            protected Boolean doInBackground(String... params) {
+            protected RegisterResponse doInBackground(String... params) {
                 //TODO: make input fields in UI for these
-                registerPresenter.registerUser(params[0],"firstName","lastName","email",params[1]);
-                return true;
+                return registerPresenter.registerUser(params[0],"firstName","lastName","email",params[1]);
+
             }
             @Override
-            protected void onPostExecute(Boolean result) {
-                //TODO: Check result or something and give user a notification success/failure
+            protected void onPostExecute(RegisterResponse result) {
+                if(result == null) {
+                    //there was a problem
+                    DialogFragment newFragment = new RegisterFailedDialogFragment();
+                    newFragment.show(getSupportFragmentManager(), "registerFailed");
+                    return;
+                }
                 openLogin();
             }
         }.execute(username,password);

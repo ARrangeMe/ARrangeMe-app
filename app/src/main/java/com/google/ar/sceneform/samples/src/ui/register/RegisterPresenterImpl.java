@@ -1,17 +1,14 @@
 package com.google.ar.sceneform.samples.src.ui.register;
 
-import com.google.ar.sceneform.samples.src.model.JobsList;
 import com.google.ar.sceneform.samples.src.model.RegisterResponse;
 import com.google.ar.sceneform.samples.src.services.Constants;
 import com.google.ar.sceneform.samples.src.services.HttpRequestService;
 import com.google.gson.Gson;
 
-import java.sql.Ref;
 
 public class RegisterPresenterImpl implements RegisterPresenter{
     HttpRequestService service = new HttpRequestService();
     Gson gson = new Gson();
-    @Override
     public RegisterResponse registerUser(String username,String firstName, String lastName, String email, String password) {
         String body = "{\n" +
                 "    \"first_name\": \""+firstName+"\",\n" +
@@ -21,7 +18,6 @@ public class RegisterPresenterImpl implements RegisterPresenter{
                 "    \"password\": \""+password+"\"\n" +
                 "}"; //TODO: use a string builder
         try {
-
             String response = service.post(Constants.registerEndpoint, body);
             return  gson.fromJson(response, RegisterResponse.class);
         } catch (Exception e) {
